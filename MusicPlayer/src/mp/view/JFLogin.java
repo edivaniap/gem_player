@@ -19,7 +19,10 @@ public class JFLogin extends javax.swing.JFrame {
      */
     public JFLogin() {
         initComponents();
+        this.getRootPane().setDefaultButton(jButtonEnter);
         jLabelWelcome.setVisible(false);
+        jLabelAdm.setVisible(false);
+        jLabelMessage.setVisible(false);
     }
 
     /**
@@ -31,19 +34,37 @@ public class JFLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabelLogo = new javax.swing.JLabel();
+        jLabelWelcome = new javax.swing.JLabel();
+        jLabelAdm = new javax.swing.JLabel();
         jButtonEnter = new javax.swing.JButton();
-        jButtonClear = new javax.swing.JButton();
         jTextUser = new javax.swing.JTextField();
+        jLabelMessage = new javax.swing.JLabel();
         jLabelUser = new javax.swing.JLabel();
         jLabelPass = new javax.swing.JLabel();
         jPasswordField = new javax.swing.JPasswordField();
-        jLabelMessage = new javax.swing.JLabel();
-        jLabelWelcome = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Login - Gem Player");
+        setTitle("Gem Music Player - Entrar");
+        setResizable(false);
 
-        jButtonEnter.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+
+        jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_gem_big.png"))); // NOI18N
+
+        jLabelWelcome.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        jLabelWelcome.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelWelcome.setText("Bem vindo! É a primeira vez que você está aqui!");
+
+        jLabelAdm.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        jLabelAdm.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelAdm.setText("Entre com usuario: \"admin\" e senha: \"gemvip\"!");
+
+        jButtonEnter.setBackground(new java.awt.Color(153, 204, 0));
+        jButtonEnter.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jButtonEnter.setForeground(new java.awt.Color(51, 51, 51));
         jButtonEnter.setText("Entrar");
         jButtonEnter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -51,62 +72,69 @@ public class JFLogin extends javax.swing.JFrame {
             }
         });
 
-        jButtonClear.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        jButtonClear.setText("Limpar");
-        jButtonClear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonClearActionPerformed(evt);
-            }
-        });
-
         jTextUser.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
-        jLabelUser.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabelMessage.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        jLabelMessage.setForeground(new java.awt.Color(255, 0, 51));
+        jLabelMessage.setText("mensagem...");
+
+        jLabelUser.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabelUser.setForeground(new java.awt.Color(255, 255, 255));
         jLabelUser.setText("Usuário");
 
-        jLabelPass.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabelPass.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabelPass.setForeground(new java.awt.Color(255, 255, 255));
         jLabelPass.setText("Senha");
 
         jPasswordField.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
-        jLabelMessage.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
-        jLabelMessage.setForeground(new java.awt.Color(0, 0, 102));
-        jLabelMessage.setText("mensagem...");
+        jLabel1.setFont(new java.awt.Font("Maiandra GD", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(153, 204, 0));
+        jLabel1.setText("Gem Music Player");
 
-        jLabelWelcome.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
-        jLabelWelcome.setText("Bem vindo! É a primeira vez que você está aqui! Entre com usuario: \"admin\" e senha: \"gemvip\"!");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonClear)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonEnter)
-                .addGap(90, 90, 90))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(119, 119, 119)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelMessage)
-                            .addComponent(jLabelUser)
-                            .addComponent(jLabelPass)
-                            .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextUser, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabelWelcome)))
-                .addContainerGap(35, Short.MAX_VALUE))
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(118, 118, 118)
+                                .addComponent(jLabelLogo)
+                                .addGap(91, 91, 91))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabelAdm)
+                                .addComponent(jLabelWelcome)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(106, 106, 106)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabelMessage)
+                    .addComponent(jLabelUser)
+                    .addComponent(jLabelPass)
+                    .addComponent(jPasswordField)
+                    .addComponent(jTextUser)
+                    .addComponent(jButtonEnter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabelLogo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelWelcome)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelAdm)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabelUser)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -115,36 +143,52 @@ public class JFLogin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jButtonEnter)
+                .addGap(18, 18, 18)
                 .addComponent(jLabelMessage)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonEnter)
-                    .addComponent(jButtonClear))
-                .addGap(56, 56, 56))
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearActionPerformed
-        jTextUser.setText("");
-        jPasswordField.setText("");
-    }//GEN-LAST:event_jButtonClearActionPerformed
-
     private void jButtonEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnterActionPerformed
+        jLabelMessage.setVisible(false);
+        
+        if (jTextUser.getText().equals("") || jPasswordField.getText().equals("")) {
+            jLabelMessage.setText("Preencha todos os campos");
+            jLabelMessage.setVisible(true);
+        } else {
             UsuarioDAO usuarioDAO = new UsuarioDAO();
-            if(usuarioDAO.listar().isEmpty()) {
+
+            if (usuarioDAO.listar().isEmpty()) {
                 jLabelWelcome.setVisible(true);
+                jLabelAdm.setVisible(true);
                 Usuario defaultUser = new Usuario();
                 usuarioDAO.inserir(defaultUser);
             } else {
                 Usuario atual = usuarioDAO.autenticacao(jTextUser.getText(), jPasswordField.getText());
-                if(atual != null) {
+                if (atual != null) {
                     JFPlayer tela = new JFPlayer(atual);
                     tela.setVisible(true);
                     this.dispose();
+                } else {
+                    jLabelMessage.setText("Dados incorretos");
+                    jLabelMessage.setVisible(true);
                 }
             }
+        }
     }//GEN-LAST:event_jButtonEnterActionPerformed
 
     /**
@@ -183,12 +227,15 @@ public class JFLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonClear;
     private javax.swing.JButton jButtonEnter;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelAdm;
+    private javax.swing.JLabel jLabelLogo;
     private javax.swing.JLabel jLabelMessage;
     private javax.swing.JLabel jLabelPass;
     private javax.swing.JLabel jLabelUser;
     private javax.swing.JLabel jLabelWelcome;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField;
     private javax.swing.JTextField jTextUser;
     // End of variables declaration//GEN-END:variables
