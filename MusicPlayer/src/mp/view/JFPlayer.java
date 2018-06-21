@@ -322,28 +322,28 @@ public class JFPlayer extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelPlayMouseClicked
 
     private void jLabelAddDiretorioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelAddDiretorioMouseClicked
-      
+
         JFileChooser fileChooser = new JFileChooser();
-        
-        //[NAO FUNCIONA] restringe para selecionar arquivos mp3 apenas
-        FileNameExtensionFilter filtroMP3 = new FileNameExtensionFilter("Arquivos MP3", "mp3");  
-        fileChooser.addChoosableFileFilter(filtroMP3);
-        fileChooser.setAcceptAllFileFilterUsed(false);
-        
+
         // restringe a amostra a diretorios apenas
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int resposta = fileChooser.showOpenDialog(null);
 
         if (resposta == JFileChooser.APPROVE_OPTION) {
             File diretorio = fileChooser.getSelectedFile();
-            
+
             for (File arquivo : diretorio.listFiles()) {
                 strName = arquivo.getName();
-                strPath = (fileChooser.getSelectedFile().getAbsolutePath() + "\\" + strName);
-                Musica musica = new Musica(strName, strPath);
-                musicaDAO.inserir(musica);
+
+                //verificar se é arquivo .mp3
+                String finalStr = strName.substring(strName.length() - 4, strName.length());
+                if (finalStr.equals(".mp3")) {
+                    strPath = (fileChooser.getSelectedFile().getAbsolutePath() + "\\" + strName);
+                    Musica musica = new Musica(strName, strPath);
+                    musicaDAO.inserir(musica);
+                }
             }
-            
+
             loadMusicsOnJlist();
         }
     }//GEN-LAST:event_jLabelAddDiretorioMouseClicked
