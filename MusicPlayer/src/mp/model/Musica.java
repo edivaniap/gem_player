@@ -13,6 +13,10 @@ public class Musica {
         this.nome = nome;
         this.caminho = caminho;
     }
+    
+    public boolean isEqual(Musica musica) {
+        return (nome.equals(musica.getNome()) && caminho.equals(musica.getCaminho()));
+    }
 
     public String getNome() {
         return nome;
