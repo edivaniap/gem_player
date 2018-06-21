@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import mp.dao.MusicaDAO;
 import mp.model.Musica;
 import mp.model.Usuario;
@@ -281,9 +282,9 @@ public class JFPlayer extends javax.swing.JFrame {
     private void jLabelAddMusicaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelAddMusicaMouseClicked
 
         JFileChooser open = new JFileChooser();
-        int r = open.showOpenDialog(null);
+        int resposta = open.showOpenDialog(null);
 
-        if (r == JFileChooser.APPROVE_OPTION) {
+        if (resposta == JFileChooser.APPROVE_OPTION) {
             strPath = open.getSelectedFile().getAbsolutePath();
         }
 
@@ -321,24 +322,29 @@ public class JFPlayer extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelPlayMouseClicked
 
     private void jLabelAddDiretorioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelAddDiretorioMouseClicked
-//REFAZER COM O PADRAO MVC E SELCIONAR APENAS MP3
-        MediaPlayer music = new MediaPlayer(null);
-        JFileChooser fc = new JFileChooser();
+      
+        JFileChooser fileChooser = new JFileChooser();
+        
+        //[NAO FUNCIONA] restringe para selecionar arquivos mp3 apenas
+        FileNameExtensionFilter filtroMP3 = new FileNameExtensionFilter("Arquivos MP3", "mp3");  
+        fileChooser.addChoosableFileFilter(filtroMP3);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        
         // restringe a amostra a diretorios apenas
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int res = fc.showOpenDialog(null);
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int resposta = fileChooser.showOpenDialog(null);
 
-        if (res == JFileChooser.APPROVE_OPTION) {
-            File diretorio = fc.getSelectedFile();
+        if (resposta == JFileChooser.APPROVE_OPTION) {
+            File diretorio = fileChooser.getSelectedFile();
+            
             for (File arquivo : diretorio.listFiles()) {
-
                 strName = arquivo.getName();
-                listModel.addElement(strName);
-                jListMusicas.setModel(listModel);
-                strPath = (fc.getSelectedFile().getAbsolutePath() + "\\" + strName);
-                //  music.save(strPath, strName);
-
+                strPath = (fileChooser.getSelectedFile().getAbsolutePath() + "\\" + strName);
+                Musica musica = new Musica(strName, strPath);
+                musicaDAO.inserir(musica);
             }
+            
+            loadMusicsOnJlist();
         }
     }//GEN-LAST:event_jLabelAddDiretorioMouseClicked
 

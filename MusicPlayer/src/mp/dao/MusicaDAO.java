@@ -56,6 +56,10 @@ public class MusicaDAO {
         }
     }
 
+    public void inserirDiretorio(ArrayList<Musica> musicas) {
+        
+    }
+    
     public ArrayList<Musica> listar() {
         ArrayList<Musica> musicas = new ArrayList<Musica>();
         Musica musica;
@@ -94,11 +98,11 @@ public class MusicaDAO {
         return musicas;
     }
 
-    public boolean alreadyExist(Musica musica) {
-        ArrayList<Musica> musicas = this.listar();
+    public boolean alreadyExist(Musica musicKey) {
+        ArrayList<Musica> currentMusics = this.listar();
 
-        for (Musica m : musicas) {
-            if (m.isEqual(musica)) {
+        for (Musica musica : currentMusics) {
+            if (musica.isEqual(musicKey)) {
                 return true;
             }
         }
@@ -111,7 +115,7 @@ public class MusicaDAO {
         ArrayList<Musica> currentMusics = this.listar();
         this.clear();
         
-        currentMusics.remove(lineToRemove);
+        currentMusics.remove(lineToRemove-1);
         
         for (Musica musica : currentMusics) {
             this.inserir(musica);
@@ -146,6 +150,7 @@ public class MusicaDAO {
         MusicaDAO mdao = new MusicaDAO();
         System.out.println(mdao.getFile().getPath());
         System.out.println(mdao.getFile().getAbsolutePath());
-        mdao.clear();
+        //mdao.clear(); //OK
+        //mdao.remove(4); //OK
     }
 }
