@@ -22,7 +22,6 @@ public class UsuarioDAO {
     
     public Usuario autenticacao(String user, String pass) {
         ArrayList<Usuario> usuarios = this.listar();
-        Usuario resultado = null;
         
         for (Usuario usuario : usuarios) {
             if(user.equals(usuario.getUsuario()) && pass.equals(usuario.getSenha())) {

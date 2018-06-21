@@ -5,10 +5,24 @@
  */
 package mp.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author maria
  */
-public class UsuarioVIP {
+public class UsuarioVIP extends Usuario {
+    ArrayList<Playlist> playlists;
+
+    public UsuarioVIP() {
+        playlists = new ArrayList<Playlist>();
+    }
+
+    public UsuarioVIP(int codigo, String nome, String usuario, String senha, String tipo) {
+        super(codigo, nome, usuario, senha, tipo);
+        playlists = new ArrayList<>();
+    }
+    
+    
     
 }
