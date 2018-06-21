@@ -6,11 +6,17 @@
 package mp.view;
 
 import java.awt.Toolkit;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import static java.nio.channels.AsynchronousFileChannel.open;
+import static java.nio.channels.AsynchronousFileChannel.open;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import mp.model.Usuario;
+import mp.sound.Music;
 
 /**
  *
@@ -19,6 +25,8 @@ import mp.model.Usuario;
 public class JFPlayer extends javax.swing.JFrame {
 
     DefaultListModel<String> listModel;
+    String str = null;
+    String strName = null;
     
     /**
      * Creates new form JFPlayer
@@ -60,6 +68,8 @@ public class JFPlayer extends javax.swing.JFrame {
         jListPlaylists = new javax.swing.JList<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jPanelRight = new javax.swing.JPanel();
         jLabelBack = new javax.swing.JLabel();
         jLabelNext1 = new javax.swing.JLabel();
@@ -77,6 +87,11 @@ public class JFPlayer extends javax.swing.JFrame {
 
         jLabelPlay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_play.png"))); // NOI18N
         jLabelPlay.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelPlay.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelPlayMouseClicked(evt);
+            }
+        });
 
         jPanelLeft.setBackground(new java.awt.Color(0, 0, 51));
         jPanelLeft.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -88,11 +103,6 @@ public class JFPlayer extends javax.swing.JFrame {
         jListMusicas.setBackground(new java.awt.Color(0, 0, 51));
         jListMusicas.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jListMusicas.setForeground(new java.awt.Color(255, 255, 255));
-        jListMusicas.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jListMusicas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jListMusicasMouseClicked(evt);
@@ -113,11 +123,6 @@ public class JFPlayer extends javax.swing.JFrame {
         jListPlaylists.setBackground(new java.awt.Color(0, 0, 51));
         jListPlaylists.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jListPlaylists.setForeground(new java.awt.Color(255, 255, 255));
-        jListPlaylists.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane2.setViewportView(jListPlaylists);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_plus.png"))); // NOI18N
@@ -128,6 +133,22 @@ public class JFPlayer extends javax.swing.JFrame {
         jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel4MouseClicked(evt);
+            }
+        });
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_plus.png"))); // NOI18N
+        jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_plus.png"))); // NOI18N
+        jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
             }
         });
 
@@ -145,12 +166,21 @@ public class JFPlayer extends javax.swing.JFrame {
                             .addComponent(jLabelLogo))
                         .addGroup(jPanelLeftLayout.createSequentialGroup()
                             .addGap(27, 27, 27)
-                            .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel4)
-                                .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2))))))
+                            .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanelLeftLayout.createSequentialGroup()
+                                    .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(jPanelLeftLayout.createSequentialGroup()
+                                            .addComponent(jLabel2)
+                                            .addGap(31, 31, 31))
+                                        .addGroup(jPanelLeftLayout.createSequentialGroup()
+                                            .addGap(35, 35, 35)
+                                            .addComponent(jLabel5)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLabel6)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                                    .addComponent(jLabel4))))))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
         jPanelLeftLayout.setVerticalGroup(
@@ -163,13 +193,18 @@ public class JFPlayer extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addGap(17, 17, 17)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelLeftLayout.createSequentialGroup()
+                        .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6))
+                        .addGap(17, 17, 17)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3))
+                    .addComponent(jLabel5))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -242,39 +277,82 @@ public class JFPlayer extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-         String caminho = null;
         
-        JFileChooser abrir = new JFileChooser();  
-            int retorno = abrir.showOpenDialog(null);  
+        //String str = null;
+        
+        JFileChooser open = new JFileChooser();  
+            int r = open.showOpenDialog(null);  
               
-            if (retorno == JFileChooser.APPROVE_OPTION){  
-                caminho = abrir.getSelectedFile().getAbsolutePath();
+            if (r == JFileChooser.APPROVE_OPTION){  
+                str = open.getSelectedFile().getAbsolutePath();
             }
+         
+            strName = str.substring(str.lastIndexOf(System.getProperty("file.separator"))+1,str.length());
+         
+            listModel.addElement(strName);
+            jListMusicas.setModel(listModel);
             
-            listModel.addElement(caminho); // adicionando elemento na lista (precisa deixar apenas o nome da musica)
-            jListMusicas.setModel(listModel); 
+            Music music = new Music(null);
+            music.save(str, strName);
             
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void jListMusicasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListMusicasMouseClicked
-        JList currentList = (JList)evt.getSource();
-        if (evt.getClickCount() == 2) {
-           // String path = (String) currentList.getSelectedValue();
-           //   JFileChooser abrir = new JFileChooser(); // abrir arquivo  
-           //  int retorno = abrir.showOpenDialog(null);  
-              
-            // if (retorno == JFileChooser.APPROVE_OPTION){  
-            //     String caminho = abrir.getSelectedFile().getAbsolutePath();
-                
-            //     File musicaFile = new File(caminho);
-   //              MP3 music = new MP3(musicaFile);
         
-//                 music.play();
-   //          }  
-              
+        if (evt.getClickCount() == 2) {
+                          
+            File musicaFile = new File(str);
+            Music music = new Music(musicaFile);
+            music.play();                 
         }
     }//GEN-LAST:event_jListMusicasMouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        
+        int index = jListMusicas.getSelectedIndex();
+        
+        listModel.removeElementAt(index);
+        
+        // falta remover do arquivo ...
+        
+        Music music = new Music(null);
+        music.save(str, strName);
+        
+            
+    }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void jLabelPlayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPlayMouseClicked
+                          
+        File musicaFile = new File(str);
+        Music music = new Music(musicaFile);
+        
+        music.play();                 
+        
+    }//GEN-LAST:event_jLabelPlayMouseClicked
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        
+        Music music = new Music(null);
+        JFileChooser fc = new JFileChooser();
+        // restringe a amostra a diretorios apenas
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int res = fc.showOpenDialog(null);
+                    
+        if(res == JFileChooser.APPROVE_OPTION){
+            File diretorio = fc.getSelectedFile();
+                for (File arquivo : diretorio.listFiles()) {
+                            
+                     strName =  arquivo.getName();
+                     listModel.addElement(strName);
+                     jListMusicas.setModel(listModel);
+                     str = (fc.getSelectedFile().getAbsolutePath() + "\\" + strName);
+                     music.save(str, strName);
+                     
+                }
+        }
+    }//GEN-LAST:event_jLabel6MouseClicked
 
     /**
      * @param args the command line arguments
@@ -316,6 +394,8 @@ public class JFPlayer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabelBack;
     private javax.swing.JLabel jLabelLogo;
     private javax.swing.JLabel jLabelNext1;
