@@ -49,7 +49,8 @@ public class JFPlayer extends javax.swing.JFrame {
     public JFPlayer(Usuario usuario) {
         initComponents();
         setImage();
-        listModel = new DefaultListModel<>();
+        loadMusicsOnJlist();
+        musicaDAO = new MusicaDAO();
     }
 
     /**
@@ -73,9 +74,9 @@ public class JFPlayer extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jListPlaylists = new javax.swing.JList<>();
         jLabel3 = new javax.swing.JLabel();
-        jLabelAddMusica = new javax.swing.JLabel();
-        jLabelRemoveMusic = new javax.swing.JLabel();
-        jLabelAddDiretorio = new javax.swing.JLabel();
+        jButtonRemover = new javax.swing.JButton();
+        jButtonAddDiretorio = new javax.swing.JButton();
+        jButtonAddMusica = new javax.swing.JButton();
         jPanelRight = new javax.swing.JPanel();
         jLabelBack = new javax.swing.JLabel();
         jLabelNext1 = new javax.swing.JLabel();
@@ -134,27 +135,30 @@ public class JFPlayer extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_plus.png"))); // NOI18N
         jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabelAddMusica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_plus.png"))); // NOI18N
-        jLabelAddMusica.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelAddMusica.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelAddMusicaMouseClicked(evt);
+        jButtonRemover.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_minus.png"))); // NOI18N
+        jButtonRemover.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemoverActionPerformed(evt);
             }
         });
 
-        jLabelRemoveMusic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_minus.png"))); // NOI18N
-        jLabelRemoveMusic.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelRemoveMusic.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelRemoveMusicMouseClicked(evt);
+        jButtonAddDiretorio.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonAddDiretorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_add_folder.png"))); // NOI18N
+        jButtonAddDiretorio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonAddDiretorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddDiretorioActionPerformed(evt);
             }
         });
 
-        jLabelAddDiretorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_add_folder.png"))); // NOI18N
-        jLabelAddDiretorio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelAddDiretorio.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelAddDiretorioMouseClicked(evt);
+        jButtonAddMusica.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonAddMusica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_plus.png"))); // NOI18N
+        jButtonAddMusica.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonAddMusica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddMusicaActionPerformed(evt);
             }
         });
 
@@ -172,17 +176,17 @@ public class JFPlayer extends javax.swing.JFrame {
                             .addComponent(jLabelLogo))
                         .addGroup(jPanelLeftLayout.createSequentialGroup()
                             .addGap(27, 27, 27)
-                            .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1)
-                                .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanelLeftLayout.createSequentialGroup()
-                                        .addComponent(jLabelRemoveMusic)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabelAddDiretorio)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabelAddMusica)))))))
+                            .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanelLeftLayout.createSequentialGroup()
+                                    .addComponent(jButtonRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jButtonAddDiretorio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jButtonAddMusica, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(112, Short.MAX_VALUE))
         );
         jPanelLeftLayout.setVerticalGroup(
@@ -194,12 +198,13 @@ public class JFPlayer extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelAddMusica)
-                    .addComponent(jLabelAddDiretorio)
-                    .addComponent(jLabelRemoveMusic))
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButtonRemover)
+                        .addComponent(jButtonAddMusica, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jButtonAddDiretorio))
+                .addGap(8, 8, 8)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -215,11 +220,11 @@ public class JFPlayer extends javax.swing.JFrame {
         jPanelRight.setLayout(jPanelRightLayout);
         jPanelRightLayout.setHorizontalGroup(
             jPanelRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 177, Short.MAX_VALUE)
+            .addGap(0, 161, Short.MAX_VALUE)
         );
         jPanelRightLayout.setVerticalGroup(
             jPanelRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 620, Short.MAX_VALUE)
         );
 
         jLabelBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_arrow_left.png"))); // NOI18N
@@ -279,22 +284,6 @@ public class JFPlayer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 
-    private void jLabelAddMusicaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelAddMusicaMouseClicked
-
-        JFileChooser open = new JFileChooser();
-        int resposta = open.showOpenDialog(null);
-
-        if (resposta == JFileChooser.APPROVE_OPTION) {
-            strPath = open.getSelectedFile().getAbsolutePath();
-        }
-
-        strName = strPath.substring(strPath.lastIndexOf(System.getProperty("file.separator")) + 1, strPath.length());
-
-        Musica musica = new Musica(strName, strPath);
-        musicaDAO.inserir(musica);
-        loadMusicsOnJlist();
-    }//GEN-LAST:event_jLabelAddMusicaMouseClicked
-
     private void jListMusicasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListMusicasMouseClicked
 
         if (evt.getClickCount() == 2) {
@@ -303,14 +292,6 @@ public class JFPlayer extends javax.swing.JFrame {
             mediaplayer.play();
         }
     }//GEN-LAST:event_jListMusicasMouseClicked
-
-    private void jLabelRemoveMusicMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRemoveMusicMouseClicked
-        //o index vai indicar o numero da linha que deve ser exluida
-        int index = jListMusicas.getSelectedIndex();
-        musicaDAO.remove(index);
-        System.out.println("index sel: " + index);
-        loadMusicsOnJlist();
-    }//GEN-LAST:event_jLabelRemoveMusicMouseClicked
 
     private void jLabelPlayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPlayMouseClicked
 
@@ -321,8 +302,15 @@ public class JFPlayer extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jLabelPlayMouseClicked
 
-    private void jLabelAddDiretorioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelAddDiretorioMouseClicked
+    private void jButtonRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverActionPerformed
+        //o index vai indicar o numero da linha que deve ser exluida
+        int index = jListMusicas.getSelectedIndex();
+        musicaDAO.remove(index);
+        System.out.println("index sel: " + index);
+        loadMusicsOnJlist();
+    }//GEN-LAST:event_jButtonRemoverActionPerformed
 
+    private void jButtonAddDiretorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddDiretorioActionPerformed
         JFileChooser fileChooser = new JFileChooser();
 
         // restringe a amostra a diretorios apenas
@@ -346,7 +334,22 @@ public class JFPlayer extends javax.swing.JFrame {
 
             loadMusicsOnJlist();
         }
-    }//GEN-LAST:event_jLabelAddDiretorioMouseClicked
+    }//GEN-LAST:event_jButtonAddDiretorioActionPerformed
+
+    private void jButtonAddMusicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddMusicaActionPerformed
+        JFileChooser open = new JFileChooser();
+        int resposta = open.showOpenDialog(null);
+
+        if (resposta == JFileChooser.APPROVE_OPTION) {
+            strPath = open.getSelectedFile().getAbsolutePath();
+        }
+
+        strName = strPath.substring(strPath.lastIndexOf(System.getProperty("file.separator")) + 1, strPath.length());
+
+        Musica musica = new Musica(strName, strPath);
+        musicaDAO.inserir(musica);
+        loadMusicsOnJlist();
+    }//GEN-LAST:event_jButtonAddMusicaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -384,16 +387,16 @@ public class JFPlayer extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAddDiretorio;
+    private javax.swing.JButton jButtonAddMusica;
+    private javax.swing.JButton jButtonRemover;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabelAddDiretorio;
-    private javax.swing.JLabel jLabelAddMusica;
     private javax.swing.JLabel jLabelBack;
     private javax.swing.JLabel jLabelLogo;
     private javax.swing.JLabel jLabelNext1;
     private javax.swing.JLabel jLabelPlay;
-    private javax.swing.JLabel jLabelRemoveMusic;
     private javax.swing.JList<String> jListMusicas;
     private javax.swing.JList<String> jListPlaylists;
     private javax.swing.JPanel jPanelCentral;

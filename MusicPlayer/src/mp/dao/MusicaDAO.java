@@ -30,7 +30,7 @@ public class MusicaDAO {
 
     public void inserir(Musica musica) {
         if (alreadyExist(musica)) {
-            JOptionPane.showMessageDialog(null, "Musica já está adicionada no player", "Alerta", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, musica.getNome() + "\n\nMusica já está adicionada no player", "Aviso", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
                 fileWriter = new FileWriter(file, true); //segundo parametro indica que o conteúdo sera acrescentado e nao substituido
@@ -57,9 +57,9 @@ public class MusicaDAO {
     }
 
     public void inserirDiretorio(ArrayList<Musica> musicas) {
-        
+
     }
-    
+
     public ArrayList<Musica> listar() {
         ArrayList<Musica> musicas = new ArrayList<Musica>();
         Musica musica;
@@ -110,27 +110,30 @@ public class MusicaDAO {
         return false;
     }
 
-    
-    public void remove(int lineToRemove) {   
+    public void remove(int lineToRemove) {
         ArrayList<Musica> currentMusics = this.listar();
         this.clear();
-        
-        currentMusics.remove(lineToRemove-1);
-        
+
+        try {
+            currentMusics.remove(lineToRemove - 1);
+        } catch (IndexOutOfBoundsException e) {
+            System.err.println("IndexOutOfBoundsException: " + e.getMessage());
+        }
+
         for (Musica musica : currentMusics) {
             this.inserir(musica);
         }
     }
-    
+
     public void clear() {
         try {
-        Writer out = new FileWriter(file.getPath());
-        System.out.println(file.getPath());
-        
-        //limpa
-        out.write("");
-        out.flush();
-        out.close();
+            Writer out = new FileWriter(file.getPath());
+            System.out.println(file.getPath());
+
+            //limpa
+            out.write("");
+            out.flush();
+            out.close();
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "[MusicaDAO - clear()]: " + e.getMessage(), "FileNotFoundException", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
@@ -143,14 +146,13 @@ public class MusicaDAO {
     public File getFile() {
         return file;
     }
-    
-    
+
     // TESTING
     public static void main(String[] args) {
         MusicaDAO mdao = new MusicaDAO();
-        System.out.println(mdao.getFile().getPath());
-        System.out.println(mdao.getFile().getAbsolutePath());
+        //System.out.println(mdao.getFile().getPath());
+        //System.out.println(mdao.getFile().getAbsolutePath());
         //mdao.clear(); //OK
-        //mdao.remove(4); //OK
+        mdao.remove(40); //OK
     }
 }
