@@ -15,11 +15,15 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.Timer;
 import mp.dao.MusicaDAO;
 import mp.model.Musica;
 import mp.model.Usuario;
 import mp.sound.MediaPlayer;
+import javazoom.jl.player.Player;
+
 
 /**
  *
@@ -73,10 +77,10 @@ public class JFPlayer extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jListPlaylists = new javax.swing.JList<>();
-        jLabel3 = new javax.swing.JLabel();
         jButtonRemover = new javax.swing.JButton();
         jButtonAddDiretorio = new javax.swing.JButton();
         jButtonAddMusica = new javax.swing.JButton();
+        jButtonAddPlaylist = new javax.swing.JButton();
         jPanelRight = new javax.swing.JPanel();
         jLabelBack = new javax.swing.JLabel();
         jLabelNext1 = new javax.swing.JLabel();
@@ -132,9 +136,6 @@ public class JFPlayer extends javax.swing.JFrame {
         jListPlaylists.setForeground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setViewportView(jListPlaylists);
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_plus.png"))); // NOI18N
-        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
         jButtonRemover.setBackground(new java.awt.Color(255, 255, 255));
         jButtonRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_minus.png"))); // NOI18N
         jButtonRemover.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -162,31 +163,39 @@ public class JFPlayer extends javax.swing.JFrame {
             }
         });
 
+        jButtonAddPlaylist.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonAddPlaylist.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_plus.png"))); // NOI18N
+        jButtonAddPlaylist.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonAddPlaylist.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddPlaylistActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelLeftLayout = new javax.swing.GroupLayout(jPanelLeft);
         jPanelLeft.setLayout(jPanelLeftLayout);
         jPanelLeftLayout.setHorizontalGroup(
             jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLeftLayout.createSequentialGroup()
-                .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanelLeftLayout.createSequentialGroup()
-                            .addGap(63, 63, 63)
-                            .addComponent(jLabelLogo))
-                        .addGroup(jPanelLeftLayout.createSequentialGroup()
-                            .addGap(27, 27, 27)
-                            .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanelLeftLayout.createSequentialGroup()
-                                    .addComponent(jButtonRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jButtonAddDiretorio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jButtonAddMusica, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelLeftLayout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(jLabelLogo))
+                    .addGroup(jPanelLeftLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanelLeftLayout.createSequentialGroup()
+                                .addComponent(jButtonRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonAddDiretorio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonAddMusica, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel2)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButtonAddPlaylist, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(112, Short.MAX_VALUE))
         );
         jPanelLeftLayout.setVerticalGroup(
@@ -208,9 +217,9 @@ public class JFPlayer extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
-                .addComponent(jLabel3)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonAddPlaylist)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanelRight.setBackground(new java.awt.Color(0, 0, 51));
@@ -224,7 +233,7 @@ public class JFPlayer extends javax.swing.JFrame {
         );
         jPanelRightLayout.setVerticalGroup(
             jPanelRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
+            .addGap(0, 625, Short.MAX_VALUE)
         );
 
         jLabelBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_arrow_left.png"))); // NOI18N
@@ -250,7 +259,7 @@ public class JFPlayer extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelNext1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(45, 45, 45)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelRight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -277,7 +286,7 @@ public class JFPlayer extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelCentral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelCentral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -299,7 +308,6 @@ public class JFPlayer extends javax.swing.JFrame {
         MediaPlayer music = new MediaPlayer(musicaFile);
 
         music.play();
-
     }//GEN-LAST:event_jLabelPlayMouseClicked
 
     private void jButtonRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverActionPerformed
@@ -325,10 +333,12 @@ public class JFPlayer extends javax.swing.JFrame {
 
                 //verificar se é arquivo .mp3
                 String finalStr = strName.substring(strName.length() - 4, strName.length());
+                
                 if (finalStr.equals(".mp3")) {
                     strPath = (fileChooser.getSelectedFile().getAbsolutePath() + "\\" + strName);
                     Musica musica = new Musica(strName, strPath);
                     musicaDAO.inserir(musica);
+                    
                 }
             }
 
@@ -337,19 +347,36 @@ public class JFPlayer extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAddDiretorioActionPerformed
 
     private void jButtonAddMusicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddMusicaActionPerformed
+        
         JFileChooser open = new JFileChooser();
         int resposta = open.showOpenDialog(null);
 
         if (resposta == JFileChooser.APPROVE_OPTION) {
             strPath = open.getSelectedFile().getAbsolutePath();
         }
-
+        
+        
         strName = strPath.substring(strPath.lastIndexOf(System.getProperty("file.separator")) + 1, strPath.length());
-
-        Musica musica = new Musica(strName, strPath);
-        musicaDAO.inserir(musica);
+        
+        String finalStr = strName.substring(strName.length() - 4, strName.length());
+        
+        if (finalStr.equals(".mp3")) {          
+            Musica musica = new Musica(strName, strPath);
+            musicaDAO.inserir(musica);
+        }    
+            
         loadMusicsOnJlist();
     }//GEN-LAST:event_jButtonAddMusicaActionPerformed
+
+    private void jButtonAddPlaylistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddPlaylistActionPerformed
+        
+        String nomePlaylist = null;
+        
+        nomePlaylist = JOptionPane.showInputDialog("Nomear Playlist");
+        
+        // * adicionar na lista
+        // * adicionar musicas
+    }//GEN-LAST:event_jButtonAddPlaylistActionPerformed
 
     /**
      * @param args the command line arguments
@@ -389,10 +416,10 @@ public class JFPlayer extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAddDiretorio;
     private javax.swing.JButton jButtonAddMusica;
+    private javax.swing.JButton jButtonAddPlaylist;
     private javax.swing.JButton jButtonRemover;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelBack;
     private javax.swing.JLabel jLabelLogo;
     private javax.swing.JLabel jLabelNext1;
