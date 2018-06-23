@@ -10,9 +10,12 @@ import java.awt.Toolkit;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import static java.nio.channels.AsynchronousFileChannel.open;
 import static java.nio.channels.AsynchronousFileChannel.open;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
@@ -25,6 +28,7 @@ import mp.model.Usuario;
 import mp.sound.MediaPlayer;
 import javazoom.jl.player.Player;
 import mp.dao.PlaylistDAO;
+import mp.model.Playlist;
 
 
 /**
@@ -44,7 +48,7 @@ public class JFPlayer extends javax.swing.JFrame {
     /**
      * Creates new form JFPlayer
      */
-    public JFPlayer() {
+    public JFPlayer() throws IOException {
         initComponents();
         setImage();
         loadMusicsOnJlist();
@@ -55,7 +59,7 @@ public class JFPlayer extends javax.swing.JFrame {
     /**
      * Creates new form JFPlayer
      */
-    public JFPlayer(Usuario usuario) {
+    public JFPlayer(Usuario usuario) throws IOException {
         initComponents();
         setImage();
         loadMusicsOnJlist();
@@ -441,6 +445,9 @@ public class JFPlayer extends javax.swing.JFrame {
             
        listModel.addElement(strPlaylist);    
        jListPlaylists.setModel(listModel);
+       
+       Playlist playlist = new Playlist(strPlaylist);
+       playlistDAO.criar(playlist);
           
     }//GEN-LAST:event_jButtonAddPlaylistActionPerformed
 
@@ -467,6 +474,7 @@ public class JFPlayer extends javax.swing.JFrame {
        jListMusicasPlaylist.setModel(listModel);
        
        
+             
     }//GEN-LAST:event_jButtonAddMusicaPlaylistActionPerformed
 
     private void jListMusicasPlaylistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListMusicasPlaylistMouseClicked
@@ -503,7 +511,11 @@ public class JFPlayer extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JFPlayer().setVisible(true);
+                try {
+                    new JFPlayer().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(JFPlayer.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

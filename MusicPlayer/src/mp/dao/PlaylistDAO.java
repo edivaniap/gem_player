@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mp.model.Playlist;
 /**
  *
@@ -25,14 +27,25 @@ public class PlaylistDAO {
 
     /**
      *
+     * @param playlist
      */
-    public PlaylistDAO() throws IOException {
-        file = new File("data/playlist.txt");
-         
+    public PlaylistDAO( ){
+       
+    }   
+    
+    public Playlist criar(Playlist playlist){
+        
+        file = new File("data/" + "playlist_" + playlist.getNome() + ".txt");
+        System.out.println("playlist.getNome()");
         if (!file.exists()) {
-            file.createNewFile();
+            try {
+                file.createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(PlaylistDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-    }    
+        return null;
+    }
     
     public File getFile() {
         return file;
