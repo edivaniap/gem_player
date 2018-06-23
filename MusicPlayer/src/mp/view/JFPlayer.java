@@ -24,6 +24,7 @@ import mp.model.Musica;
 import mp.model.Usuario;
 import mp.sound.MediaPlayer;
 import javazoom.jl.player.Player;
+import mp.dao.PlaylistDAO;
 
 
 /**
@@ -38,6 +39,7 @@ public class JFPlayer extends javax.swing.JFrame {
     String strName = null;
     String strPlaylist = null;
     MusicaDAO musicaDAO = null;
+    PlaylistDAO playlistDAO = null;
 
     /**
      * Creates new form JFPlayer
@@ -47,6 +49,7 @@ public class JFPlayer extends javax.swing.JFrame {
         setImage();
         loadMusicsOnJlist();
         musicaDAO = new MusicaDAO();
+        playlistDAO = new PlaylistDAO();
     }
 
     /**
@@ -57,6 +60,7 @@ public class JFPlayer extends javax.swing.JFrame {
         setImage();
         loadMusicsOnJlist();
         musicaDAO = new MusicaDAO();
+        playlistDAO = new PlaylistDAO();
     }
 
     /**
@@ -461,11 +465,8 @@ public class JFPlayer extends javax.swing.JFrame {
        
        listModel.addElement(item);    
        jListMusicasPlaylist.setModel(listModel);
-
-       //remover das opçoes
-       // so poder adicionar se tiver uma playlist selecionada
-       // vincular essas musicas a essa playlist
-    
+       
+       
     }//GEN-LAST:event_jButtonAddMusicaPlaylistActionPerformed
 
     private void jListMusicasPlaylistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListMusicasPlaylistMouseClicked

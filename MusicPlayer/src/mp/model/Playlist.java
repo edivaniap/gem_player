@@ -2,8 +2,17 @@ package mp.model;
 
 /**
  *
- * @author maria
+ * @author Anne
  */
 public class Playlist {
     
+    private String nome;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 }
