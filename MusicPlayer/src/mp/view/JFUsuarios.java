@@ -78,7 +78,7 @@ public class JFUsuarios extends javax.swing.JFrame {
         jButtonEditar = new javax.swing.JButton();
         jLabelMessageAcoes = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gem Music Player - Cadastrar usuário");
         setResizable(false);
 
@@ -522,15 +522,10 @@ public class JFUsuarios extends javax.swing.JFrame {
 
     private void loadUsersOnJTable() {
         ArrayList<Usuario> usuarios = usuarioDAO.list();
-        System.out.println("USERS");
-        for (Usuario usuario : usuarios) {
-            System.out.println(usuario.getNome() + usuario.getTipo());
-        }
 
         if (!usuarios.isEmpty()) {
             //limpando jTable
             while (tableModel.getRowCount() > 0) {
-                System.err.println("ainta tem linha na tabela");
                 tableModel.removeRow(0);
             }
 
