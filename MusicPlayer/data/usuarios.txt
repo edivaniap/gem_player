@@ -1,5 +1,5 @@
-<<<<<<< HEAD
 VIP Default;admin;gemvip;VIP
-=======
-0;VIP Default;admin;gemvip;vip
->>>>>>> 351e7ff9521b5be21318f7ab74f23be5b568c666
+VIP Default;admin;gemvip;VIP
+r;u;u;VIP
+qw,.dwq;k;k;VIP
+llll;l;l;Comum

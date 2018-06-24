@@ -8,6 +8,7 @@ package mp.view;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import mp.dao.UsuarioDAO;
 import mp.model.Usuario;
 import mp.model.UsuarioComum;
@@ -15,7 +16,7 @@ import mp.model.UsuarioVIP;
 
 /**
  *
- * @author Edivania Pontes
+ * @author maria
  */
 public class JFUsuarios extends javax.swing.JFrame {
 

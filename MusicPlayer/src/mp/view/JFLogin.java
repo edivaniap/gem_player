@@ -173,7 +173,6 @@ public class JFLogin extends javax.swing.JFrame {
             jLabelMessage.setText("Preencha todos os campos");
             jLabelMessage.setVisible(true);
         } else {
-<<<<<<< HEAD
             Usuario atual = usuarioDAO.autenticacao(jTextUser.getText(), jPasswordField.getText());
             if (atual != null) {
                 try {
@@ -182,28 +181,6 @@ public class JFLogin extends javax.swing.JFrame {
                     this.dispose();
                 } catch (IOException ex) {
                     Logger.getLogger(JFLogin.class.getName()).log(Level.SEVERE, null, ex);
-=======
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-
-            if (usuarioDAO.listar().isEmpty()) {
-                jLabelWelcome.setVisible(true);
-                jLabelAdm.setVisible(true);
-                Usuario defaultUser = new Usuario();
-                usuarioDAO.inserir(defaultUser);
-            } else {
-                Usuario atual = usuarioDAO.autenticacao(jTextUser.getText(), jPasswordField.getText());
-                if (atual != null) {
-                    try {
-                        JFPlayer tela = new JFPlayer(atual);
-                        tela.setVisible(true);
-                        this.dispose();
-                    } catch (IOException ex) {
-                        Logger.getLogger(JFLogin.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } else {
-                    jLabelMessage.setText("Dados incorretos");
-                    jLabelMessage.setVisible(true);
->>>>>>> 351e7ff9521b5be21318f7ab74f23be5b568c666
                 }
             } else {
                 jLabelMessage.setText("Dados incorretos");

@@ -17,7 +17,7 @@ public class UsuarioVIP extends Usuario {
     /* USER DEFAULT*/
     public UsuarioVIP() {
         super();
-        playlists = new ArrayList<Playlist>();
+        playlists = new ArrayList<>();
     }
 
     public UsuarioVIP(String nome, String usuario, String senha, String tipo) {
