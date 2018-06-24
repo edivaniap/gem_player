@@ -10,11 +10,13 @@ import mp.model.Usuario;
  */
 public interface CRUDInterface {
     
-    public void inserir(Usuario usuario);
+    public void insert(Usuario user);
     
-    public ArrayList<Usuario> listar();
+    public void edit(Usuario newUser, String currentUserKey);
+    
+    public ArrayList<Usuario> list();
     
     public boolean alreadyExist(String userKey);
     
-    public void remove(int lineToRemove);
+    public void delete(int lineToRemove);
 }

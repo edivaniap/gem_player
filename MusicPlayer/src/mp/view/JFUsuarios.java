@@ -7,8 +7,8 @@ package mp.view;
 
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import mp.dao.UsuarioDAO;
 import mp.model.Usuario;
 import mp.model.UsuarioComum;
@@ -22,6 +22,8 @@ public class JFUsuarios extends javax.swing.JFrame {
 
     private UsuarioDAO usuarioDAO;
     private DefaultTableModel tableModel;
+    private Usuario usuarioLogado;
+    String currentSelectedUser = null;
 
     /**
      * Creates new form JFCadastrarUsuario
@@ -31,6 +33,17 @@ public class JFUsuarios extends javax.swing.JFrame {
         setDetails();
         loadUsersOnJTable();
         clearCadastro();
+    }
+
+    /**
+     * Creates new form JFCadastrarUsuario
+     */
+    public JFUsuarios(Usuario usuario) {
+        initComponents();
+        setDetails();
+        loadUsersOnJTable();
+        clearCadastro();
+        usuarioLogado = usuario;
     }
 
     /**
@@ -46,14 +59,14 @@ public class JFUsuarios extends javax.swing.JFrame {
         jPanelCadastro = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTextNome = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBoxVIP = new javax.swing.JCheckBox();
         jTextUser = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jPasswordField = new javax.swing.JPasswordField();
         jPasswordFieldConfirma = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
-        jButtonCadastrar = new javax.swing.JButton();
+        jButtonEnter = new javax.swing.JButton();
         jLabelTituloAnexo = new javax.swing.JLabel();
         jButtonCancelar = new javax.swing.JButton();
         jLabelMessageErros = new javax.swing.JLabel();
@@ -85,8 +98,8 @@ public class JFUsuarios extends javax.swing.JFrame {
             }
         });
 
-        jCheckBox1.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        jCheckBox1.setText("VIP");
+        jCheckBoxVIP.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jCheckBoxVIP.setText("VIP");
 
         jTextUser.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
@@ -111,13 +124,13 @@ public class JFUsuarios extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Confirmar senha");
 
-        jButtonCadastrar.setBackground(new java.awt.Color(153, 204, 0));
-        jButtonCadastrar.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        jButtonCadastrar.setForeground(new java.awt.Color(51, 51, 51));
-        jButtonCadastrar.setText("Cadastrar");
-        jButtonCadastrar.addActionListener(new java.awt.event.ActionListener() {
+        jButtonEnter.setBackground(new java.awt.Color(153, 204, 0));
+        jButtonEnter.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jButtonEnter.setForeground(new java.awt.Color(51, 51, 51));
+        jButtonEnter.setText("Cadastrar/Editar");
+        jButtonEnter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCadastrarActionPerformed(evt);
+                jButtonEnterActionPerformed(evt);
             }
         });
 
@@ -148,7 +161,7 @@ public class JFUsuarios extends javax.swing.JFrame {
                     .addGroup(jPanelCadastroLayout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addGroup(jPanelCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonEnter, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2)
                             .addComponent(jLabel1)
                             .addGroup(jPanelCadastroLayout.createSequentialGroup()
@@ -156,7 +169,7 @@ public class JFUsuarios extends javax.swing.JFrame {
                                     .addComponent(jTextUser)
                                     .addComponent(jTextNome, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCheckBox1))
+                                .addComponent(jCheckBoxVIP))
                             .addGroup(jPanelCadastroLayout.createSequentialGroup()
                                 .addGroup(jPanelCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
@@ -182,7 +195,7 @@ public class JFUsuarios extends javax.swing.JFrame {
                 .addGap(5, 5, 5)
                 .addGroup(jPanelCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox1))
+                    .addComponent(jCheckBoxVIP))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -199,7 +212,7 @@ public class JFUsuarios extends javax.swing.JFrame {
                     .addGroup(jPanelCadastroLayout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(56, 56, 56)))
-                .addComponent(jButtonCadastrar)
+                .addComponent(jButtonEnter)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonCancelar)
                 .addGap(51, 51, 51)
@@ -207,6 +220,8 @@ public class JFUsuarios extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jTableUsers.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jTableUsers.setForeground(new java.awt.Color(102, 153, 0));
         jTableUsers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -262,16 +277,17 @@ public class JFUsuarios extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabelMessageAcoes)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelTitulo)
-                    .addComponent(jLabelMessageAcoes))
+                    .addComponent(jLabelTitulo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addComponent(jPanelCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -284,13 +300,13 @@ public class JFUsuarios extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonRemover)
-                    .addComponent(jButtonAdd)
-                    .addComponent(jButtonEditar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(jLabelMessageAcoes)
-                .addContainerGap())
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButtonRemover)
+                        .addComponent(jButtonAdd)
+                        .addComponent(jButtonEditar))
+                    .addComponent(jLabelMessageAcoes))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -316,35 +332,33 @@ public class JFUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordFieldActionPerformed
 
     private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
+        clearCadastro();
         jLabelTituloAnexo.setText("Cadastrar usuário");
+        jButtonEnter.setText("Cadastrar");
         jPanelCadastro.setVisible(true);
-//        JFileChooser open = new JFileChooser();
-//        int resposta = open.showOpenDialog(null);
-//
-//        if (resposta == JFileChooser.APPROVE_OPTION) {
-//            strPath = open.getSelectedFile().getAbsolutePath();
-//        }
-//
-//        strName = strPath.substring(strPath.lastIndexOf(System.getProperty("file.separator")) + 1, strPath.length());
-//
-//        Musica musica = new Musica(strName, strPath);
-//        musicaDAO.inserir(musica);
-//        loadMusicsOnJlist();
     }//GEN-LAST:event_jButtonAddActionPerformed
 
     private void jButtonRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverActionPerformed
+        jLabelMessageAcoes.setVisible(false);
+
         //o index vai indicar o numero da linha que deve ser exluida
-//        int index = jListMusicas.getSelectedIndex();
-//        musicaDAO.remove(index);
-//        System.out.println("index sel: " + index);
-//        loadMusicsOnJlist();
+        //getSelectedRow() : Returns the index of the first selected row, -1 if no row is selected.
+        int selectedRowIndex = jTableUsers.getSelectedRow();
+
+        if (selectedRowIndex != -1) {
+            usuarioDAO.delete(selectedRowIndex);
+            loadUsersOnJTable();
+            jLabelMessageAcoes.setText("Usuário excluido com sucesso");
+        } else {
+            jLabelMessageAcoes.setText("Selecione um usuário para excluir");
+        }
+        jLabelMessageAcoes.setVisible(true);
     }//GEN-LAST:event_jButtonRemoverActionPerformed
 
-    private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
-
+    private void jButtonEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnterActionPerformed
         jLabelMessageErros.setVisible(false);
         jLabelMessageAcoes.setVisible(false);
-      
+
         boolean preenchimentoDeCampos = jTextUser.getText().equals("") || jTextUser.getText().equals("")
                 || jPasswordField.getText().equals("") || jPasswordFieldConfirma.getText().equals("");
 
@@ -363,29 +377,63 @@ public class JFUsuarios extends javax.swing.JFrame {
             jLabelMessageErros.setVisible(true);
         } else {
             Usuario usuario;
-
-            if (jCheckBox1.isSelected()) {
+            
+            if (jCheckBoxVIP.isSelected()) {
                 usuario = new UsuarioVIP(jTextNome.getText(), jTextUser.getText(), jPasswordField.getText(), "VIP");
             } else {
                 usuario = new UsuarioComum(jTextNome.getText(), jTextUser.getText(), jPasswordField.getText(), "Comum");
             }
 
-            usuarioDAO.inserir(usuario);
+            if (jButtonEnter.getText().equals("Cadastrar")) {
+                usuarioDAO.insert(usuario);
+                jLabelMessageAcoes.setText("Usuário adicionado com sucesso");
+            } else {
+                usuarioDAO.edit(usuario, currentSelectedUser);
+                jLabelMessageAcoes.setText("Usuário editado com sucesso");
+            }
 
             clearCadastro();
             loadUsersOnJTable();
-            jLabelMessageAcoes.setText("Usuário adicionado com sucesso");
             jLabelMessageAcoes.setVisible(true);
         }
-    }//GEN-LAST:event_jButtonCadastrarActionPerformed
+    }//GEN-LAST:event_jButtonEnterActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         clearCadastro();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
-        jLabelTituloAnexo.setText("Editar usuário");
-        jPanelCadastro.setVisible(true);
+        jLabelMessageAcoes.setVisible(false);
+        clearCadastro();
+
+        //getSelectedRow() : Returns the index of the first selected row, -1 if no row is selected.
+        int selectedRowIndex = jTableUsers.getSelectedRow();
+
+        if (selectedRowIndex != -1) {
+            jLabelTituloAnexo.setText("Editar usuário");
+            jButtonEnter.setText("Editar");
+            jPanelCadastro.setVisible(true);
+
+            usuarioDAO = new UsuarioDAO();
+            currentSelectedUser = tableModel.getValueAt(selectedRowIndex, 1).toString();
+            String currentType =tableModel.getValueAt(selectedRowIndex, 2).toString();
+            String currentPass = usuarioDAO.getSenha(currentSelectedUser);
+            
+
+            jTextNome.setText(tableModel.getValueAt(selectedRowIndex, 0).toString());
+            jTextUser.setText(tableModel.getValueAt(selectedRowIndex, 1).toString());
+            jPasswordField.setText(currentPass);
+            jPasswordFieldConfirma.setText(currentPass);
+            
+            if(currentType.equals("VIP")) {
+                jCheckBoxVIP.setSelected(true);
+            } else {
+                jCheckBoxVIP.setSelected(false);
+            }
+        } else {
+            jLabelMessageAcoes.setText("Selecione um usuário para editar");
+            jLabelMessageAcoes.setVisible(true);
+        }
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
     /**
@@ -428,11 +476,11 @@ public class JFUsuarios extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAdd;
-    private javax.swing.JButton jButtonCadastrar;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonEditar;
+    private javax.swing.JButton jButtonEnter;
     private javax.swing.JButton jButtonRemover;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBoxVIP;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -453,19 +501,40 @@ public class JFUsuarios extends javax.swing.JFrame {
 
     private void setDetails() {
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icons/if_gem.png")));
-        this.getRootPane().setDefaultButton(jButtonCadastrar);
+        this.getRootPane().setDefaultButton(jButtonEnter);
         jPanelCadastro.setVisible(false);
         jLabelMessageAcoes.setVisible(false);
+        jTableUsers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tableModel = (DefaultTableModel) jTableUsers.getModel();
+        usuarioDAO = new UsuarioDAO();
+    }
+
+    private void clearCadastro() {
+        jTextNome.setText("");
+        jTextUser.setText("");
+        jPasswordField.setText("");
+        jPasswordFieldConfirma.setText("");
+        jCheckBoxVIP.setEnabled(true);
+        jCheckBoxVIP.setSelected(false);
+        jPanelCadastro.setVisible(false);
+        jLabelMessageErros.setVisible(false);
     }
 
     private void loadUsersOnJTable() {
-        usuarioDAO = new UsuarioDAO();
-
-        ArrayList<Usuario> usuarios = usuarioDAO.listar();
+        ArrayList<Usuario> usuarios = usuarioDAO.list();
+        System.out.println("USERS");
+        for (Usuario usuario : usuarios) {
+            System.out.println(usuario.getNome() + usuario.getTipo());
+        }
 
         if (!usuarios.isEmpty()) {
-            tableModel = (DefaultTableModel) jTableUsers.getModel();
+            //limpando jTable
+            while (tableModel.getRowCount() > 0) {
+                System.err.println("ainta tem linha na tabela");
+                tableModel.removeRow(0);
+            }
 
+            //adicionando cada linha da lista na jTable
             for (Usuario u : usuarios) {
                 tableModel.addRow(new Object[]{
                     u.getNome(),
@@ -474,15 +543,5 @@ public class JFUsuarios extends javax.swing.JFrame {
                 });
             }
         }
-    }
-
-    private void clearCadastro() {
-        jTextNome.setText("");
-        jTextUser.setText("");
-        jPasswordField.setText("");
-        jPasswordFieldConfirma.setText("");
-        jCheckBox1.setSelected(false);
-        jPanelCadastro.setVisible(false);
-        jLabelMessageErros.setVisible(false);
     }
 }

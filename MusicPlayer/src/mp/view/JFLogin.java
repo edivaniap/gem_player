@@ -246,11 +246,11 @@ public class JFLogin extends javax.swing.JFrame {
         usuarioDAO = new UsuarioDAO();
 
         //se ainda não ouver usuários criar um default
-        if (usuarioDAO.listar().isEmpty()) {
+        if (usuarioDAO.list().isEmpty()) {
             jLabelWelcome.setVisible(true);
             jLabelAdm.setVisible(true);
             Usuario defaultUser = new UsuarioVIP();
-            usuarioDAO.inserir(defaultUser);
+            usuarioDAO.insert(defaultUser);
         }
     }
 }

@@ -40,8 +40,6 @@ public class MusicaDAO {
 
                 bufferedWriter.newLine(); //quebufferedReadera de linha    
             } catch (FileNotFoundException e) {
-             
-                
                 JOptionPane.showMessageDialog(null, "[MusicaDAO - inserir()]: " + e.getMessage(), "FileNotFoundException", JOptionPane.ERROR_MESSAGE);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "[MusicaDAO - inserir()]: " + e.getMessage(), "IOException", JOptionPane.ERROR_MESSAGE);

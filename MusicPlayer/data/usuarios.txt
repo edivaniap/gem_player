@@ -1,5 +1,1 @@
-VIP Default;admin;gemvip;VIP
-VIP Default;admin;gemvip;VIP
-r;u;u;VIP
-qw,.dwq;k;k;VIP
-llll;l;l;Comum
+f2;c;f;Comum
