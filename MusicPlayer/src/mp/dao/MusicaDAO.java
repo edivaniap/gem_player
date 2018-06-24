@@ -40,6 +40,8 @@ public class MusicaDAO {
 
                 bufferedWriter.newLine(); //quebufferedReadera de linha    
             } catch (FileNotFoundException e) {
+             
+                
                 JOptionPane.showMessageDialog(null, "[MusicaDAO - inserir()]: " + e.getMessage(), "FileNotFoundException", JOptionPane.ERROR_MESSAGE);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "[MusicaDAO - inserir()]: " + e.getMessage(), "IOException", JOptionPane.ERROR_MESSAGE);
@@ -59,7 +61,7 @@ public class MusicaDAO {
     public void inserirDiretorio(ArrayList<Musica> musicas) {
 
     }
-
+    
     public ArrayList<Musica> listar() {
         ArrayList<Musica> musicas = new ArrayList<Musica>();
         Musica musica;
@@ -142,7 +144,7 @@ public class MusicaDAO {
             JOptionPane.showMessageDialog(null, "[MusicaDAO - clear()]: " + e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     public File getFile() {
         return file;
     }

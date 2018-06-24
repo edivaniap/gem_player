@@ -4,37 +4,27 @@ package mp.model;
  *
  * @author Edivania
  */
-public class Usuario {
-    private int codigo;
+public abstract class Usuario {
     private String nome;
     private String usuario;
     private String senha;
     private String tipo; //! comum ou vip
 
+    /* USER DEFAULT*/
     public Usuario() {
-        codigo = 0;
         nome = "VIP Default";
         usuario = "admin";
         senha = "gemvip";
-        tipo = "vip";
+        tipo = "VIP";
     }
     
-    public Usuario(int codigo, String nome, String usuario, String senha, String tipo) {
-        this.codigo = codigo;
+    public Usuario(String nome, String usuario, String senha, String tipo) {
         this.nome = nome;
         this.usuario = usuario;
         this.senha = senha;
         this.tipo = tipo;
     }
 
-    public int getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
-    }
-    
     public String getNome() {
         return nome;
     }

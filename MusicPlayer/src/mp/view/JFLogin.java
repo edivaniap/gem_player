@@ -5,8 +5,12 @@
  */
 package mp.view;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mp.dao.UsuarioDAO;
 import mp.model.Usuario;
+import mp.model.UsuarioVIP;
 
 /**
  *
@@ -14,15 +18,14 @@ import mp.model.Usuario;
  */
 public class JFLogin extends javax.swing.JFrame {
 
+    private UsuarioDAO usuarioDAO;
+
     /**
      * Creates new form JFLogin
      */
     public JFLogin() {
         initComponents();
-        this.getRootPane().setDefaultButton(jButtonEnter);
-        jLabelWelcome.setVisible(false);
-        jLabelAdm.setVisible(false);
-        jLabelMessage.setVisible(false);
+        setDetails();
     }
 
     /**
@@ -74,7 +77,7 @@ public class JFLogin extends javax.swing.JFrame {
 
         jTextUser.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
-        jLabelMessage.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        jLabelMessage.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabelMessage.setForeground(new java.awt.Color(255, 0, 51));
         jLabelMessage.setText("mensagem...");
 
@@ -102,9 +105,9 @@ public class JFLogin extends javax.swing.JFrame {
                         .addGap(36, 36, 36)
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(118, 118, 118)
                                 .addComponent(jLabelLogo)
                                 .addGap(91, 91, 91))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,7 +149,7 @@ public class JFLogin extends javax.swing.JFrame {
                 .addComponent(jButtonEnter)
                 .addGap(18, 18, 18)
                 .addComponent(jLabelMessage)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -165,28 +168,23 @@ public class JFLogin extends javax.swing.JFrame {
 
     private void jButtonEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnterActionPerformed
         jLabelMessage.setVisible(false);
-        
+
         if (jTextUser.getText().equals("") || jPasswordField.getText().equals("")) {
             jLabelMessage.setText("Preencha todos os campos");
             jLabelMessage.setVisible(true);
         } else {
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-
-            if (usuarioDAO.listar().isEmpty()) {
-                jLabelWelcome.setVisible(true);
-                jLabelAdm.setVisible(true);
-                Usuario defaultUser = new Usuario();
-                usuarioDAO.inserir(defaultUser);
-            } else {
-                Usuario atual = usuarioDAO.autenticacao(jTextUser.getText(), jPasswordField.getText());
-                if (atual != null) {
+            Usuario atual = usuarioDAO.autenticacao(jTextUser.getText(), jPasswordField.getText());
+            if (atual != null) {
+                try {
                     JFPlayer tela = new JFPlayer(atual);
                     tela.setVisible(true);
                     this.dispose();
-                } else {
-                    jLabelMessage.setText("Dados incorretos");
-                    jLabelMessage.setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(JFLogin.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            } else {
+                jLabelMessage.setText("Dados incorretos");
+                jLabelMessage.setVisible(true);
             }
         }
     }//GEN-LAST:event_jButtonEnterActionPerformed
@@ -239,4 +237,20 @@ public class JFLogin extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField;
     private javax.swing.JTextField jTextUser;
     // End of variables declaration//GEN-END:variables
+
+    private void setDetails() {
+        this.getRootPane().setDefaultButton(jButtonEnter);
+        jLabelWelcome.setVisible(false);
+        jLabelAdm.setVisible(false);
+        jLabelMessage.setVisible(false);
+        usuarioDAO = new UsuarioDAO();
+
+        //se ainda não ouver usuários criar um default
+        if (usuarioDAO.listar().isEmpty()) {
+            jLabelWelcome.setVisible(true);
+            jLabelAdm.setVisible(true);
+            Usuario defaultUser = new UsuarioVIP();
+            usuarioDAO.inserir(defaultUser);
+        }
+    }
 }

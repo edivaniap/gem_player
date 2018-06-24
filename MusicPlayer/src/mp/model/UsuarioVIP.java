@@ -14,12 +14,14 @@ import java.util.ArrayList;
 public class UsuarioVIP extends Usuario {
     ArrayList<Playlist> playlists;
 
+    /* USER DEFAULT*/
     public UsuarioVIP() {
+        super();
         playlists = new ArrayList<Playlist>();
     }
 
-    public UsuarioVIP(int codigo, String nome, String usuario, String senha, String tipo) {
-        super(codigo, nome, usuario, senha, tipo);
+    public UsuarioVIP(String nome, String usuario, String senha, String tipo) {
+        super(nome, usuario, senha, tipo);
         playlists = new ArrayList<>();
     }
     

@@ -9,113 +9,116 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import mp.interfaces.CRUDInterface;
 import mp.model.Usuario;
+import mp.model.UsuarioComum;
+import mp.model.UsuarioVIP;
 
 /**
  *
  * @author Edivania
  */
-public class UsuarioDAO {
-    
+public class UsuarioDAO implements CRUDInterface {
+
     private File file;
-    private int ultimoCodigo;
-    
+    private FileReader fileReader = null;
+    private BufferedReader bufferedReader = null;
+    private FileWriter fileWriter = null;
+    private BufferedWriter bufferedWriter = null;
+
+    public UsuarioDAO() {
+        file = new File("data/usuarios.txt");
+    }
+
     public Usuario autenticacao(String user, String pass) {
         ArrayList<Usuario> usuarios = this.listar();
-        
+
         for (Usuario usuario : usuarios) {
-            if(user.equals(usuario.getUsuario()) && pass.equals(usuario.getSenha())) {
+            if (user.equals(usuario.getUsuario()) && pass.equals(usuario.getSenha())) {
                 return usuario;
             }
         }
-        
+
         return null;
     }
 
+    @Override
     public void inserir(Usuario usuario) {
         try {
-            file = new File("data/usuarios.txt");
-            
             FileWriter fw = new FileWriter(file, true); //segundo parametro indica que o conteúdo sera acrescentado e nao substituido
             BufferedWriter bw = new BufferedWriter(fw);
             
-            bw.write(usuario.getCodigo() + ";" + usuario.getNome() + ";" 
+            bw.write(usuario.getNome() + ";"
                     + usuario.getUsuario() + ";" + usuario.getSenha() + ";"
                     + usuario.getTipo());
-            
+
             bw.newLine(); //quebra de linha    
-            
+
             bw.close();
-            fw.close();        
+            fw.close();
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "[UsuarioDAO - inserir()]:" + e.getMessage(), "FileNotFoundException", JOptionPane.ERROR_MESSAGE);
-	} catch (IOException e) {
-             JOptionPane.showMessageDialog(null, "[UsuarioDAO - inserir()]:" + e.getMessage(), "IOException", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "[UsuarioDAO - inserir()]:" + e.getMessage(), "IOException", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "[UsuarioDAO - inserir()]:" + e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
+    @Override
     public ArrayList<Usuario> listar() {
-        
+
         ArrayList<Usuario> usuarios = new ArrayList<>();
-        Usuario usuario;
+        Usuario usuario = null;
 
         try {
-            file = new File("data/usuarios.txt");
-            
             FileReader fr = new FileReader(file);
-            BufferedReader br = new  BufferedReader(fr);
-            
+            BufferedReader br = new BufferedReader(fr);
+
             //enquanto houver linhas...
-            while(br.ready()) {
+            while (br.ready()) {
                 String line = br.readLine(); //le proxima linha
-                usuario = new Usuario(0,"", "", "", "");
-                
+
                 String fields[] = line.split(";"); //preenche vetor com valores separados por ;
                 
-                int cod = Integer.parseInt(fields[0]);
-                
-                usuario.setCodigo(cod);
-                usuario.setNome(fields[1]);
-                usuario.setUsuario(fields[2]);
-                usuario.setSenha(fields[3]);                        
-                usuario.setTipo(fields[4]);
-                
+                if (fields[3].equals("VIP")) {
+                    usuario = new UsuarioVIP();
+                } else if (fields[3].equals("Comum")) {
+                    usuario = new UsuarioComum(fields[0], fields[1], fields[2], fields[3]);
+                } else {
+                    System.out.println("[UsuarioDAO - listar()]: Erro no preenchimento do field tipo de usuario...");
+                }
+
                 usuarios.add(usuario);
             }
-            
+
             br.close();
             fr.close();
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "[UsuarioDAO - listar()]:" + e.getMessage(), "FileNotFoundException", JOptionPane.ERROR_MESSAGE);
-	} catch (IOException e) {
-             JOptionPane.showMessageDialog(null, "[UsuarioDAO - listar()]:" + e.getMessage(), "IOException", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "[UsuarioDAO - listar()]:" + e.getMessage(), "IOException", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "[UsuarioDAO - listar()]:" + e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
-        
+
         return usuarios;
     }
-    
-//    for (Usuario usuario1 : usuarios) {
-//            System.out.println(usuario1.getCodigo() +" = "+ usuario1.getNome() + " - " + usuario1.getSenha() + " - " + usuario1.getTipo());
-//        }
-    
-//    public static void main(String[] args) {
-//        System.out.println("teste usuario dao............");
-//        Usuario u1 = new Usuario();
-//        Usuario u2 = new Usuario(1, "Pedro", "pdr", "2389", "comum");
-//        
-//        UsuarioDAO uDAO = new UsuarioDAO();
-//        uDAO.inserir(u1);
-//        uDAO.inserir(u2);
-//        uDAO.listar();
-//        //uDAO.clean();
-//    }
 
-       // public void alterar(Usuario novoUsuario, int atualCodigo) { }
+    @Override
+    public void remove(int lineToRemove) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
-    //public void deletar(int codigo) { }
-    
+    @Override
+    public boolean alreadyExist(String userKey) {
+        ArrayList<Usuario> currentUsers = this.listar();
+
+        for (Usuario user : currentUsers) {
+            if (userKey.equals(user.getUsuario())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
