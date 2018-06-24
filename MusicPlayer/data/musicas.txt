@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 01 Aura (Explicit).mp3;C:\Users\maria\Desktop\EDIVANIA\MUSICAS\01 Aura (Explicit).mp3
 01 Phresh Out the Runway.mp3;C:\Users\maria\Desktop\EDIVANIA\MUSICAS\01 Phresh Out the Runway.mp3
 01 Sparks (Cutmore Radio Mix).mp3;C:\Users\maria\Desktop\EDIVANIA\MUSICAS\01 Sparks (Cutmore Radio Mix).mp3
@@ -13,3 +14,5 @@
 13 Automatic.mp3;C:\Users\maria\Desktop\EDIVANIA\MUSICAS\13 Automatic.mp3
 13 Rocket Ship.mp3;C:\Users\maria\Desktop\EDIVANIA\MUSICAS\13 Rocket Ship.mp3
 15 She Don_t Like the Lights.mp3;C:\Users\maria\Desktop\EDIVANIA\MUSICAS\15 She Don_t Like the Lights.mp3
+=======
+>>>>>>> 351e7ff9521b5be21318f7ab74f23be5b568c666
