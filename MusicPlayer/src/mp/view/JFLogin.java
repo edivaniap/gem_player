@@ -5,6 +5,9 @@
  */
 package mp.view;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mp.dao.UsuarioDAO;
 import mp.model.Usuario;
 
@@ -180,9 +183,13 @@ public class JFLogin extends javax.swing.JFrame {
             } else {
                 Usuario atual = usuarioDAO.autenticacao(jTextUser.getText(), jPasswordField.getText());
                 if (atual != null) {
-                    JFPlayer tela = new JFPlayer(atual);
-                    tela.setVisible(true);
-                    this.dispose();
+                    try {
+                        JFPlayer tela = new JFPlayer(atual);
+                        tela.setVisible(true);
+                        this.dispose();
+                    } catch (IOException ex) {
+                        Logger.getLogger(JFLogin.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else {
                     jLabelMessage.setText("Dados incorretos");
                     jLabelMessage.setVisible(true);

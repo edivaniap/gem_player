@@ -38,13 +38,16 @@ import mp.model.Playlist;
 public class JFPlayer extends javax.swing.JFrame {
 
     DefaultListModel<String> listModel;
+   
+    DefaultListModel listMP = new DefaultListModel();
+
     MediaPlayer mediaplayer = null;
     String strPath = null;
     String strName = null;
     String strPlaylist = null;
     MusicaDAO musicaDAO = null;
     PlaylistDAO playlistDAO = null;
-
+    
     /**
      * Creates new form JFPlayer
      */
@@ -54,6 +57,7 @@ public class JFPlayer extends javax.swing.JFrame {
         loadMusicsOnJlist();
         musicaDAO = new MusicaDAO();
         playlistDAO = new PlaylistDAO();
+        
     }
 
     /**
@@ -426,7 +430,6 @@ public class JFPlayer extends javax.swing.JFrame {
             strPath = open.getSelectedFile().getAbsolutePath();
         }
         
-        
         strName = strPath.substring(strPath.lastIndexOf(System.getProperty("file.separator")) + 1, strPath.length());
         
         String finalStr = strName.substring(strName.length() - 4, strName.length());
@@ -440,12 +443,23 @@ public class JFPlayer extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAddMusicaActionPerformed
 
     private void jButtonAddPlaylistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddPlaylistActionPerformed
-        
-       strPlaylist = JOptionPane.showInputDialog("Nomear Playlist");
-            
-       listModel.addElement(strPlaylist);    
-       jListPlaylists.setModel(listModel);
        
+       int contem = 0;
+       
+        strPlaylist = JOptionPane.showInputDialog("Nomear Playlist");
+               
+        for( int i = 0; i < jListPlaylists.getModel().getSize(); i++){
+          
+          if(jListPlaylists.getModel().getElementAt(i).equals(strPlaylist)){
+                contem = 1;
+          }
+        }
+        
+        if( contem == 0 ){
+            listModel.addElement(strPlaylist);    
+            jListPlaylists.setModel(listModel);
+        }
+        
        Playlist playlist = new Playlist(strPlaylist);
        playlistDAO.criar(playlist);
           
@@ -459,22 +473,30 @@ public class JFPlayer extends javax.swing.JFrame {
     private void jButtonAddMusicaPlaylistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddMusicaPlaylistActionPerformed
         
         int tamanho = jListMusicas.getModel().getSize();
+        
+        String selecionarPlaylist = jListPlaylists.getSelectedValue();
+        
         Object[] opcoes = new Object[tamanho];
         
-        for( int i = 0; i < jListMusicas.getModel().getSize(); i++){
-            opcoes[i] = jListMusicas.getModel().getElementAt(i);
-        }
-        
-       Object selecionado =  JOptionPane.showInputDialog(null, "Adicionar musica",
-        "Gem Player", JOptionPane.QUESTION_MESSAGE, null, opcoes, null);
-        
-       String item = (String) selecionado;
+        if( selecionarPlaylist == null ){
+            JOptionPane.showMessageDialog(null, "Selecione uma Playlist");
+        }else{
        
-       listModel.addElement(item);    
-       jListMusicasPlaylist.setModel(listModel);
-       
-       
-             
+                for( int i = 0; i < jListMusicas.getModel().getSize(); i++){
+                    opcoes[i] = jListMusicas.getModel().getElementAt(i);
+                }
+
+                Object selecionado =  JOptionPane.showInputDialog(null, "Adicionar musica",
+                "Gem Player", JOptionPane.QUESTION_MESSAGE, null, opcoes, null);
+
+                String item = (String) selecionado;
+
+                listMP.addElement(item);    
+                jListMusicasPlaylist.setModel(listMP);
+
+                Playlist playlist = new Playlist(jListPlaylists.getSelectedValue());
+                playlistDAO.adicionarMusica(playlist);
+        }        
     }//GEN-LAST:event_jButtonAddMusicaPlaylistActionPerformed
 
     private void jListMusicasPlaylistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListMusicasPlaylistMouseClicked
