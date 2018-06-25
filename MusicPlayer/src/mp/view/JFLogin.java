@@ -5,11 +5,13 @@
  */
 package mp.view;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mp.dao.UsuarioDAO;
 import mp.model.Usuario;
+import mp.model.UsuarioComum;
 import mp.model.UsuarioVIP;
 
 /**
@@ -77,7 +79,7 @@ public class JFLogin extends javax.swing.JFrame {
 
         jTextUser.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
-        jLabelMessage.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabelMessage.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         jLabelMessage.setForeground(new java.awt.Color(255, 0, 51));
         jLabelMessage.setText("mensagem...");
 
@@ -106,13 +108,9 @@ public class JFLogin extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(58, 58, 58)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabelLogo)
-                                .addGap(91, 91, 91))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabelAdm)
-                                .addComponent(jLabelWelcome)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelAdm)
+                            .addComponent(jLabelWelcome))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -125,13 +123,17 @@ public class JFLogin extends javax.swing.JFrame {
                     .addComponent(jTextUser)
                     .addComponent(jButtonEnter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelLogo)
+                .addGap(114, 114, 114))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(23, 23, 23)
                 .addComponent(jLabelLogo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelWelcome)
@@ -149,7 +151,7 @@ public class JFLogin extends javax.swing.JFrame {
                 .addComponent(jButtonEnter)
                 .addGap(18, 18, 18)
                 .addComponent(jLabelMessage)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -176,8 +178,13 @@ public class JFLogin extends javax.swing.JFrame {
             Usuario atual = usuarioDAO.autenticacao(jTextUser.getText(), jPasswordField.getText());
             if (atual != null) {
                 try {
-                    JFPlayer tela = new JFPlayer(atual);
-                    tela.setVisible(true);
+                    if(atual instanceof UsuarioVIP) {
+                        JFPlayerVIP tela = new JFPlayerVIP((UsuarioVIP) atual);
+                        tela.setVisible(true);
+                    } else {
+                        JFPlayerComum tela = new JFPlayerComum((UsuarioComum) atual);
+                        tela.setVisible(true);
+                    }
                     this.dispose();
                 } catch (IOException ex) {
                     Logger.getLogger(JFLogin.class.getName()).log(Level.SEVERE, null, ex);
@@ -239,6 +246,7 @@ public class JFLogin extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void setDetails() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icons/if_gem.png")));
         this.getRootPane().setDefaultButton(jButtonEnter);
         jLabelWelcome.setVisible(false);
         jLabelAdm.setVisible(false);

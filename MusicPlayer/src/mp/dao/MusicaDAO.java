@@ -55,10 +55,6 @@ public class MusicaDAO {
             }
         }
     }
-
-    public void inserirDiretorio(ArrayList<Musica> musicas) {
-
-    }
     
     public ArrayList<Musica> listar() {
         ArrayList<Musica> musicas = new ArrayList<Musica>();
@@ -153,6 +149,6 @@ public class MusicaDAO {
         //System.out.println(mdao.getFile().getPath());
         //System.out.println(mdao.getFile().getAbsolutePath());
         //mdao.clear(); //OK
-        mdao.remove(40); //OK
+        //mdao.remove(40); //OK
     }
 }

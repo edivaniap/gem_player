@@ -11,9 +11,9 @@ O projeto é a implementação de um tocador de música ( media player ), com funcio
 - [x] Utilização de bibliotecas externas;
 - [ ] Documentação JavaDoc;
 - [x] Herança;
-- [ ] Polimorfismo;
-- [ ] Classe Abstrata;
-- [ ] Interfaces;
+- [x] Polimorfismo;
+- [x] Classe Abstrata;
+- [x] Interfaces;
 - [ ] Classes para tratamento de Exceções.
 - [ ] Utilizar pelos menos 2 padrões de projetos;
 - [ ] Testes unitários

@@ -1,2 +1,3 @@
-edivania;epo;0;VIP
-mariana;mdd;0;Comum
+VIP Default;admin;gemvip;VIP
+mari;k;k;Comum
+a;a;a;VIP

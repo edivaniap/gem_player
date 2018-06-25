@@ -1,5 +1,7 @@
 package mp.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Anne
@@ -7,37 +9,24 @@ package mp.model;
 public class Playlist {
     
     private String nome;
-    private String nomeMusica;
-    private String caminhoMusica;
+    private ArrayList<Musica> musicas;
     
      
-    public Playlist(String nome, String nomeMusica, String caminhoMusica) {
+    public Playlist(String nome) {
         this.nome = nome;
-        this.nomeMusica = nomeMusica;
-        this.caminhoMusica = caminhoMusica;
-    }
-
-    //public Playlist(String selectedValue, String item) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-      //  this.selectedValue = selectedValue;
-        
+        musicas = new ArrayList<>();
+    }    
     
-    //}
-    
-    public String getNomeMusica() {
-        return nomeMusica;
+    public ArrayList<Musica> getMusicas() {
+        return musicas;
     }
 
-    public void setNomeMusica(String nomeMusica) {
-        this.nomeMusica = nomeMusica;
+    public void setMusicas(ArrayList<Musica> musicas) {
+        this.musicas = musicas;
     }
 
-    public String getCaminhoMusica() {
-        return caminhoMusica;
-    }
-
-    public void setCaminhoMusica(String caminhoMusica) {
-        this.caminhoMusica = caminhoMusica;
+    public void addMusica(Musica musica) {
+        musicas.add(musica);
     }
     
     public String getNome() {

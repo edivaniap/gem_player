@@ -24,7 +24,12 @@ public class UsuarioVIP extends Usuario {
         super(nome, usuario, senha, tipo);
         playlists = new ArrayList<>();
     }
-    
-    
-    
+
+    public void setPlaylists(ArrayList<Playlist> playlists) {
+        this.playlists = playlists;
+    }
+
+    public ArrayList<Playlist> getPlaylists() {
+        return playlists;
+    }
 }
