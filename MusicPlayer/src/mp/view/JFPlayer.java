@@ -7,8 +7,11 @@ package mp.view;
 
 import java.awt.Component;
 import java.awt.Toolkit;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import static java.nio.channels.AsynchronousFileChannel.open;
@@ -39,7 +42,7 @@ public class JFPlayer extends javax.swing.JFrame {
     private DefaultListModel<String> listModel;
 
     private DefaultListModel listMP = new DefaultListModel();
-
+    
     private MediaPlayer mediaplayer = null;
     private String strPath = null;
     private String strName = null;
@@ -53,6 +56,7 @@ public class JFPlayer extends javax.swing.JFrame {
      * Creates new form JFPlayer
      */
     public JFPlayer() throws IOException {
+        
         initComponents();
         setImage();
         loadMusicsOnJlist();
@@ -397,9 +401,17 @@ public class JFPlayer extends javax.swing.JFrame {
     private void jListMusicasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListMusicasMouseClicked
 
         if (evt.getClickCount() == 2) {
-            File musicaFile = new File(strPath);
-            mediaplayer = new MediaPlayer(musicaFile);
-            mediaplayer.play();
+            String caminho = caminhoMusica(jListMusicas.getSelectedValue());
+            String[] t = caminho.split(";");
+            
+            caminho = t[1];
+            System.out.println(caminho);
+           
+             File musicaFile = new File(caminho);
+            MediaPlayer music = new MediaPlayer(musicaFile);
+
+            music.play();
+
         }
     }//GEN-LAST:event_jListMusicasMouseClicked
 
@@ -455,14 +467,16 @@ public class JFPlayer extends javax.swing.JFrame {
         if (resposta == JFileChooser.APPROVE_OPTION) {
             strPath = open.getSelectedFile().getAbsolutePath();
         }
-
+        
         strName = strPath.substring(strPath.lastIndexOf(System.getProperty("file.separator")) + 1, strPath.length());
-
+        
         String finalStr = strName.substring(strName.length() - 4, strName.length());
 
         if (finalStr.equals(".mp3")) {
+            
             Musica musica = new Musica(strName, strPath);
             musicaDAO.inserir(musica);
+               
         }
 
         loadMusicsOnJlist();
@@ -486,7 +500,7 @@ public class JFPlayer extends javax.swing.JFrame {
             jListPlaylists.setModel(listModel);
         }
 
-        Playlist playlist = new Playlist(strPlaylist);
+        Playlist playlist = new Playlist(strPlaylist, null, null);
         playlistDAO.criar(playlist);
 
     }//GEN-LAST:event_jButtonAddPlaylistActionPerformed
@@ -499,7 +513,8 @@ public class JFPlayer extends javax.swing.JFrame {
     private void jButtonAddMusicaPlaylistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddMusicaPlaylistActionPerformed
 
         int tamanho = jListMusicas.getModel().getSize();
-
+        int flag = 0;    
+        
         String selecionarPlaylist = jListPlaylists.getSelectedValue();
 
         Object[] opcoes = new Object[tamanho];
@@ -514,19 +529,43 @@ public class JFPlayer extends javax.swing.JFrame {
 
             Object selecionado = JOptionPane.showInputDialog(null, "Adicionar musica",
                     "Gem Player", JOptionPane.QUESTION_MESSAGE, null, opcoes, null);
+            
+            for (int i = 0; i < jListMusicasPlaylist.getModel().getSize(); i++) {
+                if( selecionado == jListMusicasPlaylist.getModel().getElementAt(i)){
+                    JOptionPane.showMessageDialog(null, "A musica já foi adicionada");
+                    flag = 1;
+                }
+            }
+            
+            if( flag == 0 ){
+                String item = (String) selecionado;
 
-            String item = (String) selecionado;
-
-            listMP.addElement(item);
-            jListMusicasPlaylist.setModel(listMP);
-
-            Playlist playlist = new Playlist(jListPlaylists.getSelectedValue());
-            playlistDAO.adicionarMusica(playlist);
+                listMP.addElement(item);
+                jListMusicasPlaylist.setModel(listMP);
+            
+                String caminho =  caminhoMusica(item);
+                
+                caminho = caminho.replaceAll(" ","");
+                Playlist playlist = new Playlist(jListPlaylists.getSelectedValue(), item, caminho);
+                playlistDAO.adicionarMusica(playlist);
+            }
+            
         }
     }//GEN-LAST:event_jButtonAddMusicaPlaylistActionPerformed
 
     private void jListMusicasPlaylistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListMusicasPlaylistMouseClicked
-        // TODO add your handling code here:
+        
+        
+            String caminho = caminhoMusica(jListMusicasPlaylist.getSelectedValue());
+            String[] t = caminho.split(";");
+            
+            caminho = t[1];
+            System.out.println(caminho);
+           
+             File musicaFile = new File(caminho);
+            MediaPlayer music = new MediaPlayer(musicaFile);
+
+            music.play();
     }//GEN-LAST:event_jListMusicasPlaylistMouseClicked
 
     private void jButtonUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUsuariosActionPerformed
@@ -621,6 +660,29 @@ public class JFPlayer extends javax.swing.JFrame {
             }
             jListMusicas.setModel(listModel);
         }
+    }
+    
+     public String caminhoMusica( String item){
+        
+        try {
+          
+            FileReader fr = new FileReader("data/musicas.txt");
+            BufferedReader br = new BufferedReader(fr);
+            String temp;
+            
+            while ((temp = br.readLine()) != null){
+                if( temp.contains(item)){
+                    return temp;
+                }
+            }
+	}catch (FileNotFoundException el){
+            System.out.println("Arquivo não Encontrado!");
+	} catch (IOException e){
+            e.printStackTrace();
+	}
+        
+        return null;
+    
     }
 
 }

@@ -64,7 +64,7 @@ public class PlaylistDAO {
                 fileWriter = new FileWriter(file, true); 
                 bufferedWriter = new BufferedWriter(fileWriter);
 
-                bufferedWriter.write(playlist.getNome()); // mudar para nomeMusica e caminho
+                bufferedWriter.write( playlist.getCaminhoMusica()); 
 
                 bufferedWriter.newLine();   
             } catch (FileNotFoundException e) {
@@ -84,6 +84,8 @@ public class PlaylistDAO {
             }
         return null;
     }
+    
+   
     
     public File getFile() {
         return file;

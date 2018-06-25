@@ -11,8 +11,10 @@ public class Playlist {
     private String caminhoMusica;
     
      
-    public Playlist(String nome) {
+    public Playlist(String nome, String nomeMusica, String caminhoMusica) {
         this.nome = nome;
+        this.nomeMusica = nomeMusica;
+        this.caminhoMusica = caminhoMusica;
     }
 
     //public Playlist(String selectedValue, String item) {
