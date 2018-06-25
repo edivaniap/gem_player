@@ -31,8 +31,10 @@ import mp.model.Musica;
 import mp.model.Usuario;
 import mp.sound.MediaPlayer;
 import javazoom.jl.player.Player;
+
 import mp.dao.PlaylistDAO;
 import mp.model.Playlist;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  *
@@ -56,17 +58,22 @@ public class JFPlayer extends javax.swing.JFrame {
     /**
      * Creates new form JFPlayer
      */
+    
+    
+    
     public JFPlayer() throws IOException {
         
         initComponents();
         setImage();
-        pesquisar.setVisible(true);
         loadMusicsOnJlist();
         musicaDAO = new MusicaDAO();
         playlistDAO = new PlaylistDAO();
+        
         completarPesquisar();
+        
     }
     
+  
     private void completarPesquisar(){
         
         try {
@@ -109,7 +116,6 @@ public class JFPlayer extends javax.swing.JFrame {
 	}
     }
     
-    
     /**
      * Creates new form JFPlayer
      */
@@ -117,19 +123,17 @@ public class JFPlayer extends javax.swing.JFrame {
         initComponents();
         setImage();
         loadMusicsOnJlist();
-        
         pesquisar.addItem("");
         completarPesquisar();
-       
+        
         pesquisar.setVisible(true);
         
         JTextField text = (JTextField)pesquisar.getEditor().getEditorComponent();
         text.addKeyListener(new ComboKeyHandler(pesquisar));
-     
+        
         musicaDAO = new MusicaDAO();
         playlistDAO = new PlaylistDAO();
         usuarioLogado = usuario;
-        pesquisar.setVisible(true);
         jLabelUserLogado.setText(usuarioLogado.getNome() + " | " + usuarioLogado.getTipo());
     }
 
@@ -162,12 +166,12 @@ public class JFPlayer extends javax.swing.JFrame {
         jButtonAddMusicaPlaylist = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListMusicas = new javax.swing.JList<>();
-        pesquisar = new javax.swing.JComboBox<>();
         jLabelMusicas = new javax.swing.JLabel();
         jButtonRemover = new javax.swing.JButton();
         jButtonAddDiretorio = new javax.swing.JButton();
         jButtonAddMusica = new javax.swing.JButton();
         jLabelNext2 = new javax.swing.JLabel();
+        pesquisar = new javax.swing.JComboBox<>();
 
         jToolBar1.setRollover(true);
 
@@ -244,6 +248,10 @@ public class JFPlayer extends javax.swing.JFrame {
         jPanelLeftLayout.setHorizontalGroup(
             jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLeftLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelLogo)
+                .addGap(129, 129, 129))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLeftLayout.createSequentialGroup()
                 .addGap(0, 23, Short.MAX_VALUE)
                 .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabelUserLogado, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -253,15 +261,11 @@ public class JFPlayer extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addComponent(jButtonUsuarios, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)))
                 .addGap(40, 40, 40))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLeftLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelLogo)
-                .addGap(158, 158, 158))
         );
         jPanelLeftLayout.setVerticalGroup(
             jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLeftLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addGap(24, 24, 24)
                 .addComponent(jLabelLogo)
                 .addGap(27, 27, 27)
                 .addComponent(jLabelPlaylists)
@@ -271,7 +275,7 @@ public class JFPlayer extends javax.swing.JFrame {
                 .addComponent(jButtonAddPlaylist)
                 .addGap(43, 43, 43)
                 .addComponent(jButtonUsuarios)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(jLabelUserLogado)
                 .addGap(20, 20, 20))
         );
@@ -324,8 +328,6 @@ public class JFPlayer extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jListMusicas);
 
-        pesquisar.setEditable(true);
-
         jLabelMusicas.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jLabelMusicas.setForeground(new java.awt.Color(255, 255, 255));
         jLabelMusicas.setText("Músicas");
@@ -363,6 +365,8 @@ public class JFPlayer extends javax.swing.JFrame {
         jLabelNext2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_next.png"))); // NOI18N
         jLabelNext2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
+        pesquisar.setEditable(true);
+
         javax.swing.GroupLayout jPanelCentralLayout = new javax.swing.GroupLayout(jPanelCentral);
         jPanelCentral.setLayout(jPanelCentralLayout);
         jPanelCentralLayout.setHorizontalGroup(
@@ -387,8 +391,8 @@ public class JFPlayer extends javax.swing.JFrame {
                                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                             .addGroup(jPanelCentralLayout.createSequentialGroup()
                                                 .addGroup(jPanelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jLabelMusicas))
+                                                    .addComponent(jLabelMusicas)
+                                                    .addComponent(pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addGap(0, 0, Short.MAX_VALUE)))))
                                 .addGap(59, 59, 59)
                                 .addGroup(jPanelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -468,7 +472,7 @@ public class JFPlayer extends javax.swing.JFrame {
             caminho = t[1];
             System.out.println(caminho);
            
-             File musicaFile = new File(caminho);
+            File musicaFile = new File(caminho);
             MediaPlayer music = new MediaPlayer(musicaFile);
 
             music.play();
@@ -497,6 +501,7 @@ public class JFPlayer extends javax.swing.JFrame {
         System.out.println("index sel: " + index);
         loadMusicsOnJlist();
         removerPesquisar();
+        
     }//GEN-LAST:event_jButtonRemoverActionPerformed
 
     private void jButtonAddDiretorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddDiretorioActionPerformed
@@ -523,6 +528,7 @@ public class JFPlayer extends javax.swing.JFrame {
                     JTextField text = (JTextField)pesquisar.getEditor().getEditorComponent();
                     text.addKeyListener(new ComboKeyHandler(pesquisar));
             
+
                 }
             }
 
@@ -550,7 +556,7 @@ public class JFPlayer extends javax.swing.JFrame {
             pesquisar.addItem(strName);
             JTextField text = (JTextField)pesquisar.getEditor().getEditorComponent();
             text.addKeyListener(new ComboKeyHandler(pesquisar));
-               
+           
         }
 
         loadMusicsOnJlist();
@@ -558,7 +564,7 @@ public class JFPlayer extends javax.swing.JFrame {
 
     private void jButtonAddPlaylistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddPlaylistActionPerformed
 
-        int contem = 0;
+       int contem = 0;
 
         strPlaylist = JOptionPane.showInputDialog("Nomear Playlist");
 
@@ -620,7 +626,7 @@ public class JFPlayer extends javax.swing.JFrame {
                 String caminho =  caminhoMusica(item);
                 
                 caminho = caminho.replaceAll(" ","");
-               // Playlist playlist = new Playlist(jListPlaylists.getSelectedValue(), item, caminho);
+                //Playlist playlist = new Playlist(jListPlaylists.getSelectedValue(), item, caminho);
                 //playlistDAO.adicionarMusica(playlist);
             }
             
