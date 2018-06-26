@@ -28,22 +28,24 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.Timer;
 import mp.dao.MusicaDAO;
 import mp.model.Musica;
-import mp.model.UsuarioVIP;
+import mp.model.Usuario;
 import mp.sound.MediaPlayer;
 import javazoom.jl.player.Player;
+
 import mp.dao.PlaylistDAO;
 import mp.model.Playlist;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  *
  * @author maria
  */
-public class JFPlayerVIP extends javax.swing.JFrame {
+public class JFPlayer extends javax.swing.JFrame {
 
     private DefaultListModel<String> listModel;
 
     private DefaultListModel listMP = new DefaultListModel();
-
+    
     private MediaPlayer mediaplayer = null;
     private String strPath = null;
     private String strName = null;
@@ -51,21 +53,27 @@ public class JFPlayerVIP extends javax.swing.JFrame {
     private MusicaDAO musicaDAO = null;
     private PlaylistDAO playlistDAO = null;
 
-    private UsuarioVIP usuarioLogado = null;
-
+    private Usuario usuarioLogado = null;
+    
     /**
      * Creates new form JFPlayer
      */
-    public JFPlayerVIP() throws IOException {
-
+    
+    
+    
+    public JFPlayer() throws IOException {
+        
         initComponents();
         setImage();
         loadMusicsOnJlist();
         musicaDAO = new MusicaDAO();
         playlistDAO = new PlaylistDAO();
+        
         completarPesquisar();
+        
     }
     
+  
     private void completarPesquisar(){
         
         try {
@@ -107,12 +115,14 @@ public class JFPlayerVIP extends javax.swing.JFrame {
             e.printStackTrace();
 	}
     }
+    
     /**
      * Creates new form JFPlayer
      */
-    public JFPlayerVIP(UsuarioVIP usuario) throws IOException {
+    public JFPlayer(Usuario usuario) throws IOException {
         initComponents();
         setImage();
+        loadMusicsOnJlist();
         pesquisar.addItem("");
         completarPesquisar();
         
@@ -121,12 +131,9 @@ public class JFPlayerVIP extends javax.swing.JFrame {
         JTextField text = (JTextField)pesquisar.getEditor().getEditorComponent();
         text.addKeyListener(new ComboKeyHandler(pesquisar));
         
-        
-        loadMusicsOnJlist();
         musicaDAO = new MusicaDAO();
         playlistDAO = new PlaylistDAO();
         usuarioLogado = usuario;
-        loadPlaylistsOnJlist();
         jLabelUserLogado.setText(usuarioLogado.getNome() + " | " + usuarioLogado.getTipo());
     }
 
@@ -230,7 +237,6 @@ public class JFPlayerVIP extends javax.swing.JFrame {
         jLabelUserLogado.setForeground(new java.awt.Color(255, 255, 255));
         jLabelUserLogado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_turn_off.png"))); // NOI18N
         jLabelUserLogado.setText("Usuario");
-        jLabelUserLogado.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabelUserLogado.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabelUserLogadoMouseClicked(evt);
@@ -244,7 +250,7 @@ public class JFPlayerVIP extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLeftLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabelLogo)
-                .addGap(87, 87, 87))
+                .addGap(129, 129, 129))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLeftLayout.createSequentialGroup()
                 .addGap(0, 23, Short.MAX_VALUE)
                 .addGroup(jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -279,11 +285,6 @@ public class JFPlayerVIP extends javax.swing.JFrame {
 
         jLabelStop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mp/view/icons/if_stop.png"))); // NOI18N
         jLabelStop.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelStop.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelStopMouseClicked(evt);
-            }
-        });
 
         jLabelPlaylistSelecionada.setBackground(new java.awt.Color(51, 0, 51));
         jLabelPlaylistSelecionada.setFont(new java.awt.Font("Verdana", 3, 14)); // NOI18N
@@ -377,8 +378,8 @@ public class JFPlayerVIP extends javax.swing.JFrame {
                         .addGroup(jPanelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanelCentralLayout.createSequentialGroup()
                                 .addGroup(jPanelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCentralLayout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanelCentralLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
                                         .addComponent(jButtonRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jButtonAddDiretorio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -387,20 +388,12 @@ public class JFPlayerVIP extends javax.swing.JFrame {
                                     .addGroup(jPanelCentralLayout.createSequentialGroup()
                                         .addGap(78, 78, 78)
                                         .addGroup(jPanelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-<<<<<<< HEAD
-                                            .addComponent(pesquisar, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                            .addGroup(jPanelCentralLayout.createSequentialGroup()
-                                                .addComponent(jLabelMusicas)
-                                                .addGap(0, 165, Short.MAX_VALUE)))))
-=======
                                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                             .addGroup(jPanelCentralLayout.createSequentialGroup()
                                                 .addGroup(jPanelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jLabelMusicas))
+                                                    .addComponent(jLabelMusicas)
+                                                    .addComponent(pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addGap(0, 0, Short.MAX_VALUE)))))
->>>>>>> 117e4159d1dc47261be156da97537cafabca36f1
                                 .addGap(59, 59, 59)
                                 .addGroup(jPanelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabelPlaylistSelecionada)
@@ -410,7 +403,7 @@ public class JFPlayerVIP extends javax.swing.JFrame {
                                 .addComponent(jButtonAddMusicaPlaylist, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(62, 62, 62))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCentralLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCentralLayout.createSequentialGroup()
                                 .addComponent(jLabelBack)
@@ -427,9 +420,9 @@ public class JFPlayerVIP extends javax.swing.JFrame {
         jPanelCentralLayout.setVerticalGroup(
             jPanelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCentralLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addGap(21, 21, 21)
                 .addComponent(pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelPlaylistSelecionada, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelMusicas))
@@ -468,17 +461,17 @@ public class JFPlayerVIP extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-MediaPlayer music;
+
 
     private void jListMusicasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListMusicasMouseClicked
 
         if (evt.getClickCount() == 2) {
             String caminho = caminhoMusica(jListMusicas.getSelectedValue());
             String[] t = caminho.split(";");
-
+            
             caminho = t[1];
             System.out.println(caminho);
-
+           
             File musicaFile = new File(caminho);
             MediaPlayer music = new MediaPlayer(musicaFile);
 
@@ -488,6 +481,7 @@ MediaPlayer music;
     }//GEN-LAST:event_jListMusicasMouseClicked
 
     private void jLabelPlayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPlayMouseClicked
+
         String caminho = caminhoMusica(jListMusicas.getSelectedValue());
             String[] t = caminho.split(";");
             
@@ -495,11 +489,7 @@ MediaPlayer music;
             System.out.println(caminho);
            
             File musicaFile = new File(caminho);
-<<<<<<< HEAD
-            music = new MediaPlayer(musicaFile);
-=======
             MediaPlayer music = new MediaPlayer(musicaFile);
->>>>>>> 117e4159d1dc47261be156da97537cafabca36f1
 
             music.play();
     }//GEN-LAST:event_jLabelPlayMouseClicked
@@ -511,6 +501,7 @@ MediaPlayer music;
         System.out.println("index sel: " + index);
         loadMusicsOnJlist();
         removerPesquisar();
+        
     }//GEN-LAST:event_jButtonRemoverActionPerformed
 
     private void jButtonAddDiretorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddDiretorioActionPerformed
@@ -537,6 +528,7 @@ MediaPlayer music;
                     JTextField text = (JTextField)pesquisar.getEditor().getEditorComponent();
                     text.addKeyListener(new ComboKeyHandler(pesquisar));
             
+
                 }
             }
 
@@ -552,26 +544,27 @@ MediaPlayer music;
         if (resposta == JFileChooser.APPROVE_OPTION) {
             strPath = open.getSelectedFile().getAbsolutePath();
         }
-
+        
         strName = strPath.substring(strPath.lastIndexOf(System.getProperty("file.separator")) + 1, strPath.length());
-
+        
         String finalStr = strName.substring(strName.length() - 4, strName.length());
 
         if (finalStr.equals(".mp3")) {
-
+            
             Musica musica = new Musica(strName, strPath);
             musicaDAO.inserir(musica);
             pesquisar.addItem(strName);
             JTextField text = (JTextField)pesquisar.getEditor().getEditorComponent();
             text.addKeyListener(new ComboKeyHandler(pesquisar));
-            
+           
         }
 
         loadMusicsOnJlist();
     }//GEN-LAST:event_jButtonAddMusicaActionPerformed
 
     private void jButtonAddPlaylistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddPlaylistActionPerformed
-        int contem = 0;
+
+       int contem = 0;
 
         strPlaylist = JOptionPane.showInputDialog("Nomear Playlist");
 
@@ -583,23 +576,25 @@ MediaPlayer music;
         }
 
         if (contem == 0) {
-            Playlist playlist = new Playlist(strPlaylist);
-            playlistDAO.criar(playlist, usuarioLogado.getUsuario());
+            listModel.addElement(strPlaylist);
+            jListPlaylists.setModel(listModel);
         }
-        loadPlaylistsOnJlist();
+
+        //Playlist playlist = new Playlist(strPlaylist, null, null);
+        //playlistDAO.criar(playlist);
+
     }//GEN-LAST:event_jButtonAddPlaylistActionPerformed
 
     private void jListPlaylistsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListPlaylistsMouseClicked
 
         jLabelPlaylistSelecionada.setText(jListPlaylists.getSelectedValue());
-        loadPlaylistMusicsOnJlist(jListPlaylists.getSelectedValue());
     }//GEN-LAST:event_jListPlaylistsMouseClicked
 
     private void jButtonAddMusicaPlaylistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddMusicaPlaylistActionPerformed
 
         int tamanho = jListMusicas.getModel().getSize();
-        int flag = 0;
-
+        int flag = 0;    
+        
         String selecionarPlaylist = jListPlaylists.getSelectedValue();
 
         Object[] opcoes = new Object[tamanho];
@@ -614,35 +609,43 @@ MediaPlayer music;
 
             Object selecionado = JOptionPane.showInputDialog(null, "Adicionar musica",
                     "Gem Player", JOptionPane.QUESTION_MESSAGE, null, opcoes, null);
+            
+            for (int i = 0; i < jListMusicasPlaylist.getModel().getSize(); i++) {
+                if( selecionado == jListMusicasPlaylist.getModel().getElementAt(i)){
+                    JOptionPane.showMessageDialog(null, "A musica já foi adicionada");
+                    flag = 1;
+                }
+            }
+            
+            if( flag == 0 ){
+                String item = (String) selecionado;
 
-            String item = (String) selecionado;
-
-            String caminho = caminhoMusica(item);
-
-            caminho = caminho.replaceAll(" ", "");
-
-            Musica musica = new Musica(item, caminho);
-
-            Playlist playlist = new Playlist(jListPlaylists.getSelectedValue());
-            playlist.addMusica(musica);
-
-            playlistDAO.adicionarMusica(playlist, usuarioLogado.getUsuario());
-            loadPlaylistMusicsOnJlist(selecionarPlaylist);
+                listMP.addElement(item);
+                jListMusicasPlaylist.setModel(listMP);
+            
+                String caminho =  caminhoMusica(item);
+                
+                caminho = caminho.replaceAll(" ","");
+                //Playlist playlist = new Playlist(jListPlaylists.getSelectedValue(), item, caminho);
+                //playlistDAO.adicionarMusica(playlist);
+            }
+            
         }
     }//GEN-LAST:event_jButtonAddMusicaPlaylistActionPerformed
 
     private void jListMusicasPlaylistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListMusicasPlaylistMouseClicked
+        
+        
+            String caminho = caminhoMusica(jListMusicasPlaylist.getSelectedValue());
+            String[] t = caminho.split(";");
+            
+            caminho = t[1];
+            System.out.println(caminho);
+           
+             File musicaFile = new File(caminho);
+            MediaPlayer music = new MediaPlayer(musicaFile);
 
-        String caminho = caminhoMusica(jListMusicasPlaylist.getSelectedValue());
-        String[] t = caminho.split(";");
-
-        caminho = t[1];
-        System.out.println(caminho);
-
-        File musicaFile = new File(caminho);
-        MediaPlayer music = new MediaPlayer(musicaFile);
-
-        music.play();
+            music.play();
     }//GEN-LAST:event_jListMusicasPlaylistMouseClicked
 
     private void jButtonUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUsuariosActionPerformed
@@ -653,10 +656,6 @@ MediaPlayer music;
     private void jLabelUserLogadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelUserLogadoMouseClicked
         Runtime.getRuntime().exit(0);
     }//GEN-LAST:event_jLabelUserLogadoMouseClicked
-
-    private void jLabelStopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelStopMouseClicked
-        music.parar();
-    }//GEN-LAST:event_jLabelStopMouseClicked
 
     /**
      * @param args the command line arguments
@@ -675,26 +674,23 @@ MediaPlayer music;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JFPlayerVIP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFPlayer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JFPlayerVIP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFPlayer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JFPlayerVIP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFPlayer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JFPlayerVIP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFPlayer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new JFPlayerVIP().setVisible(true);
+                    new JFPlayer().setVisible(true);
                 } catch (IOException ex) {
-                    Logger.getLogger(JFPlayerVIP.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JFPlayer.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -735,72 +731,39 @@ MediaPlayer music;
 
     private void loadMusicsOnJlist() {
         musicaDAO = new MusicaDAO();
+
         ArrayList<Musica> musicas = musicaDAO.listar();
-        listModel = new DefaultListModel<>();
         if (!musicas.isEmpty()) {
+            listModel = new DefaultListModel<>();
+            DefaultListModel listModel = new DefaultListModel();
             for (Musica m : musicas) {
                 listModel.addElement(m.getNome());
             }
+            jListMusicas.setModel(listModel);
         }
-        jListMusicas.setModel(listModel);
     }
-
-    private void loadPlaylistsOnJlist() {
-        playlistDAO = new PlaylistDAO();
-
-        ArrayList<Playlist> playlists = playlistDAO.listarPlaylistPorUsuario(usuarioLogado.getUsuario());
-        listModel = new DefaultListModel<>();
-
-        if (!playlists.isEmpty()) {
-            for (Playlist p : playlists) {
-                try {
-                    listModel.addElement(p.getNome());
-                } catch (Exception e) {
-                    System.err.println("PlayerVIP loadPlaylistsOnJlist() - exception - " + e);
-                }
-            }
-        }
-        jListPlaylists.setModel(listModel);
-    }
-
-    private void loadPlaylistMusicsOnJlist(String nomePlaylist) {
-        playlistDAO = new PlaylistDAO();
-        ArrayList<Musica> musicas = playlistDAO.listarMusicasPorPL(usuarioLogado.getUsuario(), nomePlaylist);
-        listModel = new DefaultListModel<>();
-        if (!musicas.isEmpty()) {
-            for (Musica m : musicas) {
-                try {
-                    listModel.addElement(m.getNome());
-                } catch (Exception e) {
-                    System.err.println("PlayerVIP loadPlaylistMusicsOnJlist() - Exception - " + e);
-                }
-            }
-        }
-
-        jListMusicasPlaylist.setModel(listModel);
-    }
-
-    public String caminhoMusica(String item) {
+    
+     public String caminhoMusica( String item){
+        
         try {
-
+          
             FileReader fr = new FileReader("data/musicas.txt");
             BufferedReader br = new BufferedReader(fr);
             String temp;
-
-            while ((temp = br.readLine()) != null) {
-
-                if (temp.contains(item)) {
+            
+            while ((temp = br.readLine()) != null){
+                if( temp.contains(item)){
                     return temp;
                 }
             }
-        } catch (FileNotFoundException el) {
+	}catch (FileNotFoundException el){
             System.out.println("Arquivo não Encontrado!");
-        } catch (IOException e) {
+	} catch (IOException e){
             e.printStackTrace();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+	}
+        
         return null;
+    
     }
 
 }
