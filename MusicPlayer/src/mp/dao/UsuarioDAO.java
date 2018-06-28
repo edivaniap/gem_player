@@ -11,9 +11,9 @@ import java.io.Writer;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import mp.interfaces.CRUDInterface;
-import mp.model.Usuario;
-import mp.model.UsuarioComum;
-import mp.model.UsuarioVIP;
+import mp.model.User;
+import mp.model.CommonUser;
+import mp.model.VIPUser;
 
 /**
  *
@@ -31,11 +31,11 @@ public class UsuarioDAO implements CRUDInterface {
         file = new File("data/usuarios.txt");
     }
     
-    public Usuario autenticacao(String user, String pass) {
-        ArrayList<Usuario> usuarios = this.list();
+    public User autenticacao(String user, String pass) {
+        ArrayList<User> usuarios = this.list();
         
-        for (Usuario usuario : usuarios) {
-            if (user.equals(usuario.getUsuario()) && pass.equals(usuario.getSenha())) {
+        for (User usuario : usuarios) {
+            if (user.equals(usuario.getUsername()) && pass.equals(usuario.getPassword())) {
                 return usuario;
             }
         }
@@ -44,14 +44,14 @@ public class UsuarioDAO implements CRUDInterface {
     }
     
     @Override
-    public void insert(Usuario usuario) {
+    public void insert(User usuario) {
         try {
             FileWriter fw = new FileWriter(file, true); //segundo parametro indica que o conteúdo sera acrescentado e nao substituido
             BufferedWriter bw = new BufferedWriter(fw);
             
             bw.write(usuario.getNome() + ";"
-                    + usuario.getUsuario() + ";" + usuario.getSenha() + ";"
-                    + usuario.getTipo());
+                    + usuario.getUsername() + ";" + usuario.getPassword() + ";"
+                    + usuario.getType());
             
             bw.newLine(); //quebra de linha    
 
@@ -67,10 +67,10 @@ public class UsuarioDAO implements CRUDInterface {
     }
     
     @Override
-    public ArrayList<Usuario> list() {
+    public ArrayList<User> list() {
         
-        ArrayList<Usuario> usuarios = new ArrayList<>();
-        Usuario usuario = null;
+        ArrayList<User> usuarios = new ArrayList<>();
+        User usuario = null;
         
         try {
             FileReader fr = new FileReader(file);
@@ -83,9 +83,9 @@ public class UsuarioDAO implements CRUDInterface {
                 String fields[] = line.split(";"); //preenche vetor com valores separados por ;
 
                 if (fields[3].equals("VIP")) {
-                    usuario = new UsuarioVIP(fields[0], fields[1], fields[2], fields[3]);
+                    usuario = new VIPUser(fields[0], fields[1], fields[2], fields[3]);
                 } else if (fields[3].equals("Comum")) {
-                    usuario = new UsuarioComum(fields[0], fields[1], fields[2], fields[3]);
+                    usuario = new CommonUser(fields[0], fields[1], fields[2], fields[3]);
                 } else {
                     System.out.println("[UsuarioDAO - listar()]: Erro no preenchimento do field tipo de usuario...");
                 }
@@ -108,7 +108,7 @@ public class UsuarioDAO implements CRUDInterface {
     
     @Override
     public void delete(int lineToRemove) {
-        ArrayList<Usuario> currentUsers = this.list();
+        ArrayList<User> currentUsers = this.list();
         this.clear();
         
         try {
@@ -117,17 +117,17 @@ public class UsuarioDAO implements CRUDInterface {
             System.err.println("IndexOutOfBoundsException: " + e.getMessage());
         }
         
-        for (Usuario usuario : currentUsers) {
+        for (User usuario : currentUsers) {
             this.insert(usuario);
         }
     }
     
     @Override
     public boolean alreadyExist(String userKey) {
-        ArrayList<Usuario> currentUsers = this.list();
+        ArrayList<User> currentUsers = this.list();
         
-        for (Usuario user : currentUsers) {
-            if (userKey.equals(user.getUsuario())) {
+        for (User user : currentUsers) {
+            if (userKey.equals(user.getUsername())) {
                 return true;
             }
         }
@@ -135,11 +135,11 @@ public class UsuarioDAO implements CRUDInterface {
     }
     
     public String getSenha(String userKey) {
-        ArrayList<Usuario> currentUsers = this.list();
+        ArrayList<User> currentUsers = this.list();
         
-        for (Usuario user : currentUsers) {
-            if (userKey.equals(user.getUsuario())) {
-                return user.getSenha();
+        for (User user : currentUsers) {
+            if (userKey.equals(user.getUsername())) {
+                return user.getPassword();
             }
         }
         return "";
@@ -164,12 +164,12 @@ public class UsuarioDAO implements CRUDInterface {
     }
     
     @Override
-    public void edit(Usuario newUser, String currentUserKey) {
-        ArrayList<Usuario> currentUsers = this.list();
+    public void edit(User newUser, String currentUserKey) {
+        ArrayList<User> currentUsers = this.list();
         this.clear();
         
-        for (Usuario usuario : currentUsers) {
-            if (currentUserKey.equals(usuario.getUsuario())) {
+        for (User usuario : currentUsers) {
+            if (currentUserKey.equals(usuario.getUsername())) {
                 this.insert(newUser);
             } else {
                 this.insert(usuario);

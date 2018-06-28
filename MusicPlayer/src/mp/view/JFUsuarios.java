@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import mp.dao.UsuarioDAO;
-import mp.model.Usuario;
-import mp.model.UsuarioComum;
-import mp.model.UsuarioVIP;
+import mp.model.User;
+import mp.model.CommonUser;
+import mp.model.VIPUser;
 
 /**
  *
@@ -22,7 +22,7 @@ public class JFUsuarios extends javax.swing.JFrame {
 
     private UsuarioDAO usuarioDAO;
     private DefaultTableModel tableModel;
-    private Usuario usuarioLogado;
+    private User usuarioLogado;
     String currentSelectedUser = null;
 
     /**
@@ -38,7 +38,7 @@ public class JFUsuarios extends javax.swing.JFrame {
     /**
      * Creates new form JFCadastrarUsuario
      */
-    public JFUsuarios(Usuario usuario) {
+    public JFUsuarios(User usuario) {
         initComponents();
         setDetails();
         loadUsersOnJTable();
@@ -376,12 +376,12 @@ public class JFUsuarios extends javax.swing.JFrame {
             jLabelMessageErros.setText("Já temos alguém usando este usuário");
             jLabelMessageErros.setVisible(true);
         } else {
-            Usuario usuario;
+            User usuario;
             
             if (jCheckBoxVIP.isSelected()) {
-                usuario = new UsuarioVIP(jTextNome.getText(), jTextUser.getText(), jPasswordField.getText(), "VIP");
+                usuario = new VIPUser(jTextNome.getText(), jTextUser.getText(), jPasswordField.getText(), "VIP");
             } else {
-                usuario = new UsuarioComum(jTextNome.getText(), jTextUser.getText(), jPasswordField.getText(), "Comum");
+                usuario = new CommonUser(jTextNome.getText(), jTextUser.getText(), jPasswordField.getText(), "Comum");
             }
 
             if (jButtonEnter.getText().equals("Cadastrar")) {
@@ -525,7 +525,7 @@ public class JFUsuarios extends javax.swing.JFrame {
     }
 
     private void loadUsersOnJTable() {
-        ArrayList<Usuario> usuarios = usuarioDAO.list();
+        ArrayList<User> usuarios = usuarioDAO.list();
 
         if (!usuarios.isEmpty()) {
             //limpando jTable
@@ -534,11 +534,11 @@ public class JFUsuarios extends javax.swing.JFrame {
             }
 
             //adicionando cada linha da lista na jTable
-            for (Usuario u : usuarios) {
+            for (User u : usuarios) {
                 tableModel.addRow(new Object[]{
                     u.getNome(),
-                    u.getUsuario(),
-                    u.getTipo()
+                    u.getUsername(),
+                    u.getType()
                 });
             }
         }

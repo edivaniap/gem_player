@@ -1,6 +1,6 @@
 # PROJETO MUSIC PLAYER
 
-## Sobre o projeto:
+## Sobre o projeto
 
 O projeto é a implementação de um tocador de música ( media player ), com funcionalidades para gerenciar um conjunto de músicas. O objetivo é desenvolver um sistema de médio porte, utilizando o paradigma da orientação a objetos na disciplina LP2 e conhecimentos adquiridos em EDB2.
 
@@ -9,7 +9,7 @@ O projeto é a implementação de um tocador de música ( media player ), com funcio
 - [x] Organização de pacotes;
 - [x] Interface (GUI) Swing;
 - [x] Utilização de bibliotecas externas;
-- [ ] Documentação JavaDoc;
+- [x] Documentação JavaDoc;
 - [x] Herança;
 - [x] Polimorfismo;
 - [x] Classe Abstrata;
@@ -19,11 +19,10 @@ O projeto é a implementação de um tocador de música ( media player ), com funcio
 - [ ] Testes unitários
 
 
-## Erros tratados:
+## Diretrizes de programação adotada
 
+Diretrizes de boas práticas de programação 2018.1 < https://goo.gl/9tGDGS >
 
-
-## Como compilar:
 
 
 ## TODO

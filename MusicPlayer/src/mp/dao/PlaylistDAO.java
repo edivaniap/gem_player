@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import mp.model.Musica;
+import mp.model.Music;
 import mp.model.Playlist;
 
 /**
@@ -42,7 +42,7 @@ public class PlaylistDAO {
 
     public Playlist criar(Playlist playlist, String usuario_criador) {
 
-        file = new File("data/" + "playlist_" + usuario_criador + "_" + playlist.getNome() + ".txt");
+        file = new File("data/" + "playlist_" + usuario_criador + "_" + playlist.getTitle() + ".txt");
 
         if (!file.exists()) {
             try {
@@ -53,7 +53,7 @@ public class PlaylistDAO {
                 FileWriter fw = new FileWriter(filePlaylists, true); //segundo parametro indica que o conteúdo sera acrescentado e nao substituido
                 BufferedWriter bw = new BufferedWriter(fw);
 
-                bw.write(usuario_criador + ";" + playlist.getNome());
+                bw.write(usuario_criador + ";" + playlist.getTitle());
 
                 bw.newLine(); //quebra de linha    
 
@@ -70,10 +70,10 @@ public class PlaylistDAO {
     }
 
     public void adicionarMusica(Playlist playlist, String usuario_criador) {
-        if (this.jaExisteEstaMusica(usuario_criador, playlist.getNome(), playlist.getMusicas().get(0).getNome())) {
-            JOptionPane.showMessageDialog(null, playlist.getMusicas().get(0).getNome() + "\n\nMusica já está adicionada nesta playlist", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        if (this.jaExisteEstaMusica(usuario_criador, playlist.getTitle(), playlist.getMusics().get(0).getTitle())) {
+            JOptionPane.showMessageDialog(null, playlist.getMusics().get(0).getTitle() + "\n\nMusica já está adicionada nesta playlist", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            String caminho = "data/" + "playlist_" + usuario_criador + "_" + playlist.getNome() + ".txt";
+            String caminho = "data/" + "playlist_" + usuario_criador + "_" + playlist.getTitle() + ".txt";
 
             try {
                 file = new File(caminho);
@@ -81,7 +81,7 @@ public class PlaylistDAO {
                 fileWriter = new FileWriter(file, true);
                 bufferedWriter = new BufferedWriter(fileWriter);
 
-                bufferedWriter.write(playlist.getMusicas().get(0).getNome() + ";" + playlist.getMusicas().get(0).getCaminho());
+                bufferedWriter.write(playlist.getMusics().get(0).getTitle() + ";" + playlist.getMusics().get(0).getPath());
 
                 bufferedWriter.newLine();
             } catch (FileNotFoundException e) {
@@ -140,8 +140,8 @@ public class PlaylistDAO {
         return playlists;
     }
 
-    public ArrayList<Musica> listarMusicasPorPL(String usuario_criador, String nome_pl) {
-        ArrayList<Musica> musicas = new ArrayList<>();
+    public ArrayList<Music> listarMusicasPorPL(String usuario_criador, String nome_pl) {
+        ArrayList<Music> musicas = new ArrayList<>();
         try {
             String caminho = "data/" + "playlist_" + usuario_criador + "_" + nome_pl + ".txt";
             file = new File(caminho);
@@ -154,7 +154,7 @@ public class PlaylistDAO {
 
                 String fields[] = line.split(";"); //preenche vetor com valores separados por ;
 
-                Musica musica = new Musica(fields[0], fields[1]);
+                Music musica = new Music(fields[0], fields[1]);
                 musicas.add(musica);
             }
 
@@ -172,10 +172,10 @@ public class PlaylistDAO {
     }
 
     public boolean jaExisteEstaMusica(String usuario_criador, String nomePlaylist, String musicaKey) {
-        ArrayList<Musica> currentMusics = this.listarMusicasPorPL(usuario_criador, nomePlaylist);
+        ArrayList<Music> currentMusics = this.listarMusicasPorPL(usuario_criador, nomePlaylist);
 
-        for (Musica m : currentMusics) {
-            if (m.getNome().equals(musicaKey)) {
+        for (Music m : currentMusics) {
+            if (m.getTitle().equals(musicaKey)) {
                 return true;
             }
         }

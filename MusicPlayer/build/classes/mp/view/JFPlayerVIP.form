@@ -78,21 +78,11 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-<<<<<<< HEAD
                                               <Component id="pesquisar" alignment="1" max="32767" attributes="0"/>
                                               <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
                                               <Group type="102" attributes="0">
                                                   <Component id="jLabelMusicas" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="0" pref="165" max="32767" attributes="0"/>
-=======
-                                              <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
-                                              <Group type="102" attributes="0">
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="pesquisar" min="-2" pref="197" max="-2" attributes="0"/>
-                                                      <Component id="jLabelMusicas" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
->>>>>>> 117e4159d1dc47261be156da97537cafabca36f1
                                               </Group>
                                           </Group>
                                       </Group>

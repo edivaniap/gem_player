@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mp.dao.UsuarioDAO;
-import mp.model.Usuario;
-import mp.model.UsuarioComum;
-import mp.model.UsuarioVIP;
+import mp.model.User;
+import mp.model.CommonUser;
+import mp.model.VIPUser;
 
 /**
  *
@@ -107,33 +107,33 @@ public class JFLogin extends javax.swing.JFrame {
                         .addGap(36, 36, 36)
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelAdm)
-                            .addComponent(jLabelWelcome))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(58, 58, 58)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelAdm)
+                                    .addComponent(jLabelWelcome)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(106, 106, 106)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabelMessage)
+                                    .addComponent(jLabelUser)
+                                    .addComponent(jLabelPass)
+                                    .addComponent(jPasswordField)
+                                    .addComponent(jTextUser)
+                                    .addComponent(jButtonEnter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(122, 122, 122)
+                                .addComponent(jLabelLogo)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(106, 106, 106)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelMessage)
-                    .addComponent(jLabelUser)
-                    .addComponent(jLabelPass)
-                    .addComponent(jPasswordField)
-                    .addComponent(jTextUser)
-                    .addComponent(jButtonEnter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelLogo)
-                .addGap(155, 155, 155))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(28, 28, 28)
                 .addComponent(jLabelLogo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelWelcome)
@@ -175,14 +175,14 @@ public class JFLogin extends javax.swing.JFrame {
             jLabelMessage.setText("Preencha todos os campos");
             jLabelMessage.setVisible(true);
         } else {
-            Usuario atual = usuarioDAO.autenticacao(jTextUser.getText(), jPasswordField.getText());
+            User atual = usuarioDAO.autenticacao(jTextUser.getText(), jPasswordField.getText());
             if (atual != null) {
                 try {
-                    if(atual instanceof UsuarioVIP) {
-                        JFPlayerVIP tela = new JFPlayerVIP((UsuarioVIP) atual);
+                    if(atual instanceof VIPUser) {
+                        JFPlayerVIP tela = new JFPlayerVIP((VIPUser) atual);
                         tela.setVisible(true);
                     } else {
-                        JFPlayerComum tela = new JFPlayerComum((UsuarioComum) atual);
+                        JFPlayerComum tela = new JFPlayerComum((CommonUser) atual);
                         tela.setVisible(true);
                     }
                     this.dispose();
@@ -258,7 +258,7 @@ public class JFLogin extends javax.swing.JFrame {
         if (usuarioDAO.list().isEmpty()) {
             jLabelWelcome.setVisible(true);
             jLabelAdm.setVisible(true);
-            Usuario defaultUser = new UsuarioVIP();
+            User defaultUser = new VIPUser();
             usuarioDAO.insert(defaultUser);
         }
     }

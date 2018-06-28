@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import mp.model.Musica;
+import mp.model.Music;
 
 /**
  *
@@ -28,15 +28,15 @@ public class MusicaDAO {
         file = new File("data/musicas.txt");
     }
 
-    public void inserir(Musica musica) {
+    public void inserir(Music musica) {
         if (alreadyExist(musica)) {
-            JOptionPane.showMessageDialog(null, musica.getNome() + "\n\nMusica já está adicionada no player", "Aviso", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, musica.getTitle() + "\n\nMusica já está adicionada no player", "Aviso", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
                 fileWriter = new FileWriter(file, true); //segundo parametro indica que o conteúdo sera acrescentado e nao substituido
                 bufferedWriter = new BufferedWriter(fileWriter);
 
-                bufferedWriter.write(musica.getNome() + ";" + musica.getCaminho());
+                bufferedWriter.write(musica.getTitle() + ";" + musica.getPath());
 
                 bufferedWriter.newLine(); //quebufferedReadera de linha    
             } catch (FileNotFoundException e) {
@@ -56,9 +56,9 @@ public class MusicaDAO {
         }
     }
     
-    public ArrayList<Musica> listar() {
-        ArrayList<Musica> musicas = new ArrayList<Musica>();
-        Musica musica;
+    public ArrayList<Music> listar() {
+        ArrayList<Music> musicas = new ArrayList<Music>();
+        Music musica;
 
         try {
             fileReader = new FileReader(file);
@@ -67,12 +67,12 @@ public class MusicaDAO {
             //enquanto houver linhas...
             while (bufferedReader.ready()) {
                 String line = bufferedReader.readLine(); //le proxima linha
-                musica = new Musica(null, null);
+                musica = new Music(null, null);
 
                 String fields[] = line.split(";"); //preenche vetor com valores separados por ;
 
-                musica.setNome(fields[0]);
-                musica.setCaminho(fields[1]);
+                musica.setTitle(fields[0]);
+                musica.setPath(fields[1]);
 
                 musicas.add(musica);
             }
@@ -94,10 +94,10 @@ public class MusicaDAO {
         return musicas;
     }
 
-    public boolean alreadyExist(Musica musicKey) {
-        ArrayList<Musica> currentMusics = this.listar();
+    public boolean alreadyExist(Music musicKey) {
+        ArrayList<Music> currentMusics = this.listar();
 
-        for (Musica musica : currentMusics) {
+        for (Music musica : currentMusics) {
             if (musica.isEqual(musicKey)) {
                 return true;
             }
@@ -107,7 +107,7 @@ public class MusicaDAO {
     }
 
     public void remove(int lineToRemove) {
-        ArrayList<Musica> currentMusics = this.listar();
+        ArrayList<Music> currentMusics = this.listar();
         this.clear();
 
         try {
@@ -116,7 +116,7 @@ public class MusicaDAO {
             System.err.println("IndexOutOfBoundsException: " + e.getMessage());
         }
 
-        for (Musica musica : currentMusics) {
+        for (Music musica : currentMusics) {
             this.inserir(musica);
         }
     }

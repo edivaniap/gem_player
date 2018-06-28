@@ -69,29 +69,10 @@
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-<<<<<<< HEAD
                               <Component id="jLabelMusicas" min="-2" max="-2" attributes="0"/>
                               <Component id="pesquisar" min="-2" pref="205" max="-2" attributes="0"/>
-=======
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabelMusicas" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="jButtonRemover" min="-2" pref="40" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jButtonAddDiretorio" min="-2" pref="40" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jButtonAddMusica" min="-2" pref="40" max="-2" attributes="0"/>
-                              </Group>
->>>>>>> 117e4159d1dc47261be156da97537cafabca36f1
                           </Group>
                       </Group>
-<<<<<<< HEAD
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
@@ -120,32 +101,6 @@
                               </Group>
                               <Component id="jScrollPane1" min="-2" pref="205" max="-2" attributes="0"/>
                           </Group>
-=======
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="21" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Component id="jLabelBack" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jLabelPlay" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jLabelStop" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jLabelNext2" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="jProgressBar1" alignment="1" min="-2" pref="439" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="96" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="pesquisar" min="-2" pref="148" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="337" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
->>>>>>> 117e4159d1dc47261be156da97537cafabca36f1
                       </Group>
                   </Group>
                   <EmptySpace pref="24" max="32767" attributes="0"/>

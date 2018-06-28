@@ -2,7 +2,7 @@
 package mp.interfaces;
 
 import java.util.ArrayList;
-import mp.model.Usuario;
+import mp.model.User;
 
 /**
  *
@@ -10,11 +10,11 @@ import mp.model.Usuario;
  */
 public interface CRUDInterface {
     
-    public void insert(Usuario user);
+    public void insert(User user);
     
-    public void edit(Usuario newUser, String currentUserKey);
+    public void edit(User newUser, String currentUserKey);
     
-    public ArrayList<Usuario> list();
+    public ArrayList<User> list();
     
     public boolean alreadyExist(String userKey);
     
