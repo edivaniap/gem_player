@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package mp.sound;
 
 import java.io.BufferedInputStream;
@@ -11,9 +7,13 @@ import java.io.FileInputStream;
 import javazoom.jl.player.Player;
 
 /**
- *
- * @author Anne
+ * Execução do audio  
+ * 
+ * @author Edivânia Pontes (edivaniap@ufrn.edu.br)
+ * @author Anne Ílary (ilarymoraes@hotmail.com)
+ * @since 18 de junho de 2018
  */
+
 public class MediaPlayer {
 
     private File music;
@@ -22,7 +22,13 @@ public class MediaPlayer {
     public MediaPlayer(File music) {
         this.music = music;
     }
-
+	
+/**
+  * Prepara arquivo de musica para ser tocado usando a biblioteca JLayer  
+  * 
+  */
+    
+			
     public void play() {
 
         try {
