@@ -5,7 +5,7 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import mp.dao.UsuarioDAO;
+import mp.dao.UserDAO;
 import mp.model.User;
 import mp.model.CommonUser;
 import mp.model.VIPUser;
@@ -20,7 +20,7 @@ import mp.model.VIPUser;
 
 public class JFLogin extends javax.swing.JFrame {
 
-    private UsuarioDAO usuarioDAO;
+    private UserDAO usuarioDAO;
 
     /**
      * Creates new form JFLogin
@@ -175,7 +175,7 @@ public class JFLogin extends javax.swing.JFrame {
             jLabelMessage.setText("Preencha todos os campos");
             jLabelMessage.setVisible(true);
         } else {
-            User atual = usuarioDAO.autenticacao(jTextUser.getText(), jPasswordField.getText());
+            User atual = usuarioDAO.authenticate(jTextUser.getText(), jPasswordField.getText());
             if (atual != null) {
                 try {
                     if(atual instanceof VIPUser) {
@@ -252,7 +252,7 @@ public class JFLogin extends javax.swing.JFrame {
         jLabelWelcome.setVisible(false);
         jLabelAdm.setVisible(false);
         jLabelMessage.setVisible(false);
-        usuarioDAO = new UsuarioDAO();
+        usuarioDAO = new UserDAO();
 
         //se ainda não ouver usuários criar um default
         if (usuarioDAO.list().isEmpty()) {

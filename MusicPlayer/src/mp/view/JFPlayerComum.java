@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JTextField;
-import mp.dao.MusicaDAO;
+import mp.dao.MusicDAO;
 import mp.model.Music;
 import mp.model.User;
 import mp.sound.MediaPlayer;
@@ -38,7 +38,7 @@ public class JFPlayerComum extends javax.swing.JFrame {
     private String strPath = null;
     private String strName = null;
     private String strPlaylist = null;
-    private MusicaDAO musicaDAO = null;
+    private MusicDAO musicaDAO = null;
     private PlaylistDAO playlistDAO = null;
 
     private User usuarioLogado = null;
@@ -51,7 +51,7 @@ public class JFPlayerComum extends javax.swing.JFrame {
         initComponents();
         setImage();
         loadMusicsOnJlist();
-        musicaDAO = new MusicaDAO();
+        musicaDAO = new MusicDAO();
         playlistDAO = new PlaylistDAO();
         completarPesquisar();
     }
@@ -114,7 +114,7 @@ public class JFPlayerComum extends javax.swing.JFrame {
         JTextField text = (JTextField)pesquisar.getEditor().getEditorComponent();
         text.addKeyListener(new ComboKeyHandler(pesquisar));
         
-        musicaDAO = new MusicaDAO();
+        musicaDAO = new MusicDAO();
         playlistDAO = new PlaylistDAO();
         usuarioLogado = usuario;
         jLabelUserLogado.setText(usuarioLogado.getNome() + " | " + usuarioLogado.getType());
@@ -401,7 +401,7 @@ public class JFPlayerComum extends javax.swing.JFrame {
                 if (finalStr.equals(".mp3")) {
                     strPath = (fileChooser.getSelectedFile().getAbsolutePath() + "\\" + strName);
                     Music musica = new Music(strName, strPath);
-                    musicaDAO.inserir(musica);
+                    musicaDAO.insert(musica);
                     pesquisar.addItem(strName);
                     JTextField text = (JTextField)pesquisar.getEditor().getEditorComponent();
                     text.addKeyListener(new ComboKeyHandler(pesquisar));
@@ -429,7 +429,7 @@ public class JFPlayerComum extends javax.swing.JFrame {
         if (finalStr.equals(".mp3")) {
             
             Music musica = new Music(strName, strPath);
-            musicaDAO.inserir(musica);
+            musicaDAO.insert(musica);
             pesquisar.addItem(strName);
             JTextField text = (JTextField)pesquisar.getEditor().getEditorComponent();
             text.addKeyListener(new ComboKeyHandler(pesquisar));
@@ -514,9 +514,9 @@ public class JFPlayerComum extends javax.swing.JFrame {
     }
 
     private void loadMusicsOnJlist() {
-        musicaDAO = new MusicaDAO();
+        musicaDAO = new MusicDAO();
 
-        ArrayList<Music> musicas = musicaDAO.listar();
+        ArrayList<Music> musicas = musicaDAO.list();
         if (!musicas.isEmpty()) {
             listModel = new DefaultListModel<>();
             DefaultListModel listModel = new DefaultListModel();

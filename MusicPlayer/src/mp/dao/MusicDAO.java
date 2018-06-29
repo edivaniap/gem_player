@@ -13,42 +13,41 @@ import javax.swing.JOptionPane;
 import mp.model.Music;
 
 /**
- * Representa dados de uma musica
- * 
+ * Classe de acesso e persitência dos dados de Música
+ *
  * @author Edivânia Pontes (edivaniap@ufrn.edu.br)
  * @author Anne Ílary (ilarymoraes@hotmail.com)
  * @since 20 de junho de 2018
  */
-
-
-public class MusicaDAO {
+public class MusicDAO {
 
     private File file = null;
-    FileReader fileReader = null;
-    BufferedReader bufferedReader = null;
-    FileWriter fileWriter = null;
-    BufferedWriter bufferedWriter = null;
-    
-    public MusicaDAO() {
+    private FileReader fileReader = null;
+    private BufferedReader bufferedReader = null;
+    private FileWriter fileWriter = null;
+    private BufferedWriter bufferedWriter = null;
+
+    public MusicDAO() {
         file = new File("data/musicas.txt");
     }
 
     /**
-     * Insere uma música em um arquivo caso ainda não exista nele 
-     * 
-     * @param musica Musica a ser inserida
+     * Insere uma música no arquivo de texto separando seus atributos por ";"
+     * Caso a música já exista no arquivo, apenas mostra um aviso
+     *
+     * @param music Música a ser inserida
      */
-    public void inserir(Music musica) {
-        if (alreadyExist(musica)) {
-            JOptionPane.showMessageDialog(null, musica.getTitle() + "\n\nMusica já está adicionada no player", "Aviso", JOptionPane.WARNING_MESSAGE);
+    public void insert(Music music) {
+        if (alreadyExist(music)) {
+            JOptionPane.showMessageDialog(null, music.getTitle() + "\n\nMusica já está adicionada no player", "Aviso", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
-                fileWriter = new FileWriter(file, true); 
+                fileWriter = new FileWriter(file, true);
                 bufferedWriter = new BufferedWriter(fileWriter);
 
-                bufferedWriter.write(musica.getTitle() + ";" + musica.getPath());
+                bufferedWriter.write(music.getTitle() + ";" + music.getPath());
 
-                bufferedWriter.newLine();    
+                bufferedWriter.newLine();
             } catch (FileNotFoundException e) {
                 JOptionPane.showMessageDialog(null, "[MusicaDAO - inserir()]: " + e.getMessage(), "FileNotFoundException", JOptionPane.ERROR_MESSAGE);
             } catch (IOException e) {
@@ -65,31 +64,32 @@ public class MusicaDAO {
             }
         }
     }
-    
+
     /**
-     * 
-     * 
-     * @return Lista com as musicas 
+     * Percorre o arquivo de músicas, dividindo seus atributos que estão entre
+     * ";" e carregando um arranjo de música
+     *
+     * @return Lista com as músicas
      */
-    public ArrayList<Music> listar() {
-        
-        ArrayList<Music> musicas = new ArrayList<Music>();
-        Music musica;
+    public ArrayList<Music> list() {
+
+        ArrayList<Music> musics = new ArrayList<>();
+        Music music;
 
         try {
             fileReader = new FileReader(file);
             bufferedReader = new BufferedReader(fileReader);
-            
+
             while (bufferedReader.ready()) {
-                String line = bufferedReader.readLine(); 
-                musica = new Music(null, null);
+                String line = bufferedReader.readLine();
+                music = new Music(null, null);
 
-                String fields[] = line.split(";"); 
+                String fields[] = line.split(";");
 
-                musica.setTitle(fields[0]);
-                musica.setPath(fields[1]);
+                music.setTitle(fields[0]);
+                music.setPath(fields[1]);
 
-                musicas.add(musica);
+                musics.add(music);
             }
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "[MusicaDAO - listar()]: " + e.getMessage(), "FileNotFoundException", JOptionPane.ERROR_MESSAGE);
@@ -106,20 +106,20 @@ public class MusicaDAO {
             }
         }
 
-        return musicas;
+        return musics;
     }
 
     /**
-     * Verifica se a musica já existe na lista
-     * 
-     * @param musicKey Musica que será verificada/
-     * @return Falso se a musica não existir e verdadeiro caso contrário
+     * Verifica se a música já existe no arquivo
+     *
+     * @param musicKey Música que será verificada
+     * @return false se a música não existir e true caso contrário
      */
     public boolean alreadyExist(Music musicKey) {
-        ArrayList<Music> currentMusics = this.listar();
+        ArrayList<Music> currentMusics = this.list();
 
-        for (Music musica : currentMusics) {
-            if (musica.isEqual(musicKey)) {
+        for (Music music : currentMusics) {
+            if (music.isEqual(musicKey)) {
                 return true;
             }
         }
@@ -128,12 +128,12 @@ public class MusicaDAO {
     }
 
     /**
-     * Remove uma musica da lista
-     * 
-     * @param lineToRemove Indica a linha a ser removida 
+     * Remove uma música do arquivo apagando a linha que contém seus dados
+     *
+     * @param lineToRemove Indica a linha a ser removida
      */
     public void remove(int lineToRemove) {
-        ArrayList<Music> currentMusics = this.listar();
+        ArrayList<Music> currentMusics = this.list();
         this.clear();
 
         try {
@@ -142,14 +142,15 @@ public class MusicaDAO {
             System.err.println("IndexOutOfBoundsException: " + e.getMessage());
         }
 
-        for (Music musica : currentMusics) {
-            this.inserir(musica);
+        for (Music music : currentMusics) {
+            this.insert(music);
         }
     }
 
     /**
-     *  
-     * 
+     * Limpa o arquivo com os dados das músicas apagando todo texto
+     *
+     * @
      */
     public void clear() {
         try {
@@ -167,17 +168,13 @@ public class MusicaDAO {
             JOptionPane.showMessageDialog(null, "[MusicaDAO - clear()]: " + e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
+    /**
+     * Recupera o arquivo de músicas
+     *
+     * @return Arquivo de músicas
+     */
     public File getFile() {
         return file;
-    }
-
-    
-    public static void main(String[] args) {
-        MusicaDAO mdao = new MusicaDAO();
-        //System.out.println(mdao.getFile().getPath());
-        //System.out.println(mdao.getFile().getAbsolutePath());
-        //mdao.clear(); //OK
-        //mdao.remove(40); //OK
     }
 }

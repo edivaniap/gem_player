@@ -4,7 +4,7 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-import mp.dao.UsuarioDAO;
+import mp.dao.UserDAO;
 import mp.model.User;
 import mp.model.CommonUser;
 import mp.model.VIPUser;
@@ -18,7 +18,7 @@ import mp.model.VIPUser;
  */
 public class JFUsuarios extends javax.swing.JFrame {
 
-    private UsuarioDAO usuarioDAO;
+    private UserDAO usuarioDAO;
     private DefaultTableModel tableModel;
     private User usuarioLogado;
     String currentSelectedUser = null;
@@ -412,10 +412,10 @@ public class JFUsuarios extends javax.swing.JFrame {
             jButtonEnter.setText("Editar");
             jPanelCadastro.setVisible(true);
 
-            usuarioDAO = new UsuarioDAO();
+            usuarioDAO = new UserDAO();
             currentSelectedUser = tableModel.getValueAt(selectedRowIndex, 1).toString();
             String currentType =tableModel.getValueAt(selectedRowIndex, 2).toString();
-            String currentPass = usuarioDAO.getSenha(currentSelectedUser);
+            String currentPass = usuarioDAO.getPassword(currentSelectedUser);
             
 
             jTextNome.setText(tableModel.getValueAt(selectedRowIndex, 0).toString());
@@ -508,7 +508,7 @@ public class JFUsuarios extends javax.swing.JFrame {
         jLabelMessageAcoes.setVisible(false);
         jTableUsers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tableModel = (DefaultTableModel) jTableUsers.getModel();
-        usuarioDAO = new UsuarioDAO();
+        usuarioDAO = new UserDAO();
     }
 
     private void clearCadastro() {

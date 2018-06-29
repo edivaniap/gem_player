@@ -15,7 +15,7 @@ import mp.model.Music;
 import mp.model.Playlist;
 
 /**
- * Representa dados de uma playlist
+ * Classe de acesso e persitência dos dados de Playlists
  *
  * @author Edivânia Pontes (edivaniap@ufrn.edu.br)
  * @author Anne Ílary (ilarymoraes@hotmail.com)
@@ -30,33 +30,27 @@ public class PlaylistDAO {
     private FileWriter fileWriter = null;
     private BufferedWriter bufferedWriter = null;
 
-    
-    public PlaylistDAO() {
-    }
-
     /**
-     * Cria uma playlist vinculada a um usuario
-     * 
-     * @param playlist Uma playlist 
-     * @param usuario_criador Identifica o usuario que criou a playlist
-     * @return 
+     * Cria uma playlist vinculada a um usuário
+     *
+     * @param playlist A playlist a ser criada
+     * @param ownersUsername Identifica o usuário que criou a playlist
      */
-    public Playlist criar(Playlist playlist, String usuario_criador) {
-
-        file = new File("data/" + "playlist_" + usuario_criador + "_" + playlist.getTitle() + ".txt");
+    public void criar(Playlist playlist, String ownersUsername) {
+        file = new File("data/" + "playlist_" + ownersUsername + "_" + playlist.getTitle() + ".txt");
 
         if (!file.exists()) {
             try {
                 file.createNewFile();
 
                 filePlaylists = new File("data/playlists.txt");
-               
-                FileWriter fw = new FileWriter(filePlaylists, true); 
+
+                FileWriter fw = new FileWriter(filePlaylists, true);
                 BufferedWriter bw = new BufferedWriter(fw);
 
-                bw.write(usuario_criador + ";" + playlist.getTitle());
+                bw.write(ownersUsername + ";" + playlist.getTitle());
 
-                bw.newLine();    
+                bw.newLine();
 
                 bw.close();
                 fw.close();
@@ -66,25 +60,22 @@ public class PlaylistDAO {
         } else {
             JOptionPane.showMessageDialog(null, "Playlist já inserida");
         }
-
-        return null;
     }
 
     /**
-     * Adiciona uma musica na playlist selecionada
-     * 
-     * @param playlist Uma playlist
-     * @param usuario_criador Identifica o usuario que criou a playlist
+     * Adiciona uma música no arquivo de uma playlist específica
+     *
+     * @param playlist A playlist que vai receber a música
+     * @param ownersUsername Identifica o usuário dono da playlist
      */
-    
-    public void adicionarMusica(Playlist playlist, String usuario_criador) {
-        if (this.jaExisteEstaMusica(usuario_criador, playlist.getTitle(), playlist.getMusics().get(0).getTitle())) {
+    public void addMusic(Playlist playlist, String ownersUsername) {
+        if (this.alreadyExist(ownersUsername, playlist.getTitle(), playlist.getMusics().get(0).getTitle())) {
             JOptionPane.showMessageDialog(null, playlist.getMusics().get(0).getTitle() + "\n\nMusica já está adicionada nesta playlist", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            String caminho = "data/" + "playlist_" + usuario_criador + "_" + playlist.getTitle() + ".txt";
+            String path = "data/" + "playlist_" + ownersUsername + "_" + playlist.getTitle() + ".txt";
 
             try {
-                file = new File(caminho);
+                file = new File(path);
 
                 fileWriter = new FileWriter(file, true);
                 bufferedWriter = new BufferedWriter(fileWriter);
@@ -110,15 +101,14 @@ public class PlaylistDAO {
     }
 
     /**
-     * Lista todas as playlists referentes ao usuario 
-     * 
-     * @param usuario_criador Identifica o usuario que criou a playlist
-     * @return Lista com playlist criada por usuario 
+     * Lista todas as playlists pertencentes a um usuário específico
+     *
+     * @param ownersUsername O usuário chave da busca de playlists
+     * @return Lista com playlists criadas por usuário
      */
-    
-    public ArrayList<Playlist> listarPlaylistPorUsuario(String usuario_criador) {
+    public ArrayList<Playlist> listPlaylistsByUser(String ownersUsername) {
         ArrayList<Playlist> playlists = new ArrayList<>();
-        Playlist playlistDoUsuario = null;
+        Playlist usersPlaylist = null;
 
         try {
             filePlaylists = new File("data/playlists.txt");
@@ -126,15 +116,15 @@ public class PlaylistDAO {
             bufferedReader = new BufferedReader(fileReader);
 
             while (bufferedReader.ready()) {
-                String line = bufferedReader.readLine(); 
+                String line = bufferedReader.readLine();
 
-                String fields[] = line.split(";"); 
+                String fields[] = line.split(";");
 
-                if (usuario_criador.equals(fields[0])) {
-                    playlistDoUsuario = new Playlist(fields[1]);
+                if (ownersUsername.equals(fields[0])) {
+                    usersPlaylist = new Playlist(fields[1]);
                 }
 
-                playlists.add(playlistDoUsuario);
+                playlists.add(usersPlaylist);
             }
 
             fileReader.close();
@@ -145,38 +135,32 @@ public class PlaylistDAO {
             System.err.println("[PlaylistDAO - listar()]: IOException - " + e.getMessage());
         }
 
-        //apos ler os nomes das playlists do usuario, carregar musicas
-//        for (Playlist p : playlists) {
-//            ArrayList<Musica> musicas = listarMusicasPorPL(usuario_criador, p.getNome());
-//            p.setMusicas(musicas);
-//        }
-
         return playlists;
     }
 
     /**
-     * Lista todas as musicas referentes á uma playlist
-     * 
-     * @param usuario_criador Identifica o usuario que criou a playlist
-     * @param nome_pl Nome da playlist
-     * @return Lista com as musicas da playlist
+     * Lista todas as músicas referentes a uma playlist de um usuário específico
+     *
+     * @param ownersUsername O usuário chave da busca
+     * @param playlistName O nome da playlist chave da busca
+     * @return Lista com as músicas da playlist buscada
      */
-    public ArrayList<Music> listarMusicasPorPL(String usuario_criador, String nome_pl) {
-        ArrayList<Music> musicas = new ArrayList<>();
-        
+    public ArrayList<Music> listMusicsByPlaylist(String ownersUsername, String playlistName) {
+        ArrayList<Music> musics = new ArrayList<>();
+
         try {
-            String caminho = "data/" + "playlist_" + usuario_criador + "_" + nome_pl + ".txt";
-            file = new File(caminho);
+            String path = "data/" + "playlist_" + ownersUsername + "_" + playlistName + ".txt";
+            file = new File(path);
             fileReader = new FileReader(file);
             bufferedReader = new BufferedReader(fileReader);
 
             while (bufferedReader.ready()) {
-                String line = bufferedReader.readLine(); 
+                String line = bufferedReader.readLine();
 
-                String fields[] = line.split(";"); 
+                String fields[] = line.split(";");
 
-                Music musica = new Music(fields[0], fields[1]);
-                musicas.add(musica);
+                Music music = new Music(fields[0], fields[1]);
+                musics.add(music);
             }
 
             fileReader.close();
@@ -189,29 +173,33 @@ public class PlaylistDAO {
             System.err.println("[PlaylistDAO - listar()]: NullPointerException - " + e.getMessage());
         }
 
-        return musicas;
+        return musics;
     }
 
     /**
-     * Verifica se uma musica já existe na playlist
-     * 
-     * @param usuario_criador Identifica o usuario que criou a playlist
-     * @param nomePlaylist Nome da playlist 
-     * @param musicaKey Musica que será verificada
-     * @return Falso se a musica não existir e verdadeiro caso contrário
+     * Verifica se uma música já existe na playlist de um usuário
+     *
+     * @param ownersUsername O usuário dono da playlist criada
+     * @param playlistName Nome da playlist buscada
+     * @param musicKey Música que será verificada a existência
+     * @return false se a música não existir e true caso contrário
      */
-  
-    public boolean jaExisteEstaMusica(String usuario_criador, String nomePlaylist, String musicaKey) {
-        ArrayList<Music> currentMusics = this.listarMusicasPorPL(usuario_criador, nomePlaylist);
+    public boolean alreadyExist(String ownersUsername, String playlistName, String musicKey) {
+        ArrayList<Music> currentMusics = this.listMusicsByPlaylist(ownersUsername, playlistName);
 
-        for (Music m : currentMusics) {
-            if (m.getTitle().equals(musicaKey)) {
+        for (Music music : currentMusics) {
+            if (music.getTitle().equals(musicKey)) {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * Recupera o arquivo de playlists
+     *
+     * @return Arquivo de playlists
+     */
     public File getFile() {
         return file;
     }

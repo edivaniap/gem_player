@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.Timer;
-import mp.dao.MusicaDAO;
+import mp.dao.MusicDAO;
 import mp.model.Music;
 import mp.model.VIPUser;
 import mp.sound.MediaPlayer;
@@ -46,7 +46,7 @@ public class JFPlayerVIP extends javax.swing.JFrame {
     private String strPath = null;
     private String strName = null;
     private String strPlaylist = null;
-    private MusicaDAO musicaDAO = null;
+    private MusicDAO musicaDAO = null;
     private PlaylistDAO playlistDAO = null;
 
     private VIPUser usuarioLogado = null;
@@ -59,7 +59,7 @@ public class JFPlayerVIP extends javax.swing.JFrame {
         initComponents();
         setImage();
         loadMusicsOnJlist();
-        musicaDAO = new MusicaDAO();
+        musicaDAO = new MusicDAO();
         playlistDAO = new PlaylistDAO();
         completarPesquisar();
     }
@@ -121,7 +121,7 @@ public class JFPlayerVIP extends javax.swing.JFrame {
         
         
         loadMusicsOnJlist();
-        musicaDAO = new MusicaDAO();
+        musicaDAO = new MusicDAO();
         playlistDAO = new PlaylistDAO();
         usuarioLogado = usuario;
         loadPlaylistsOnJlist();
@@ -517,7 +517,7 @@ MediaPlayer music;
                 if (finalStr.equals(".mp3")) {
                     strPath = (fileChooser.getSelectedFile().getAbsolutePath() + "\\" + strName);
                     Music musica = new Music(strName, strPath);
-                    musicaDAO.inserir(musica);
+                    musicaDAO.insert(musica);
                     pesquisar.addItem(strName);
                     JTextField text = (JTextField)pesquisar.getEditor().getEditorComponent();
                     text.addKeyListener(new ComboKeyHandler(pesquisar));
@@ -545,7 +545,7 @@ MediaPlayer music;
         if (finalStr.equals(".mp3")) {
 
             Music musica = new Music(strName, strPath);
-            musicaDAO.inserir(musica);
+            musicaDAO.insert(musica);
             pesquisar.addItem(strName);
             JTextField text = (JTextField)pesquisar.getEditor().getEditorComponent();
             text.addKeyListener(new ComboKeyHandler(pesquisar));
@@ -611,7 +611,7 @@ MediaPlayer music;
             Playlist playlist = new Playlist(jListPlaylists.getSelectedValue());
             playlist.addMusica(musica);
 
-            playlistDAO.adicionarMusica(playlist, usuarioLogado.getUsername());
+            playlistDAO.addMusic(playlist, usuarioLogado.getUsername());
             loadPlaylistMusicsOnJlist(selecionarPlaylist);
         }
     }//GEN-LAST:event_jButtonAddMusicaPlaylistActionPerformed
@@ -719,8 +719,8 @@ MediaPlayer music;
     }
 
     private void loadMusicsOnJlist() {
-        musicaDAO = new MusicaDAO();
-        ArrayList<Music> musicas = musicaDAO.listar();
+        musicaDAO = new MusicDAO();
+        ArrayList<Music> musicas = musicaDAO.list();
         listModel = new DefaultListModel<>();
         if (!musicas.isEmpty()) {
             for (Music m : musicas) {
@@ -733,7 +733,7 @@ MediaPlayer music;
     private void loadPlaylistsOnJlist() {
         playlistDAO = new PlaylistDAO();
 
-        ArrayList<Playlist> playlists = playlistDAO.listarPlaylistPorUsuario(usuarioLogado.getUsername());
+        ArrayList<Playlist> playlists = playlistDAO.listPlaylistsByUser(usuarioLogado.getUsername());
         listModel = new DefaultListModel<>();
 
         if (!playlists.isEmpty()) {
@@ -750,7 +750,7 @@ MediaPlayer music;
 
     private void loadPlaylistMusicsOnJlist(String nomePlaylist) {
         playlistDAO = new PlaylistDAO();
-        ArrayList<Music> musicas = playlistDAO.listarMusicasPorPL(usuarioLogado.getUsername(), nomePlaylist);
+        ArrayList<Music> musicas = playlistDAO.listMusicsByPlaylist(usuarioLogado.getUsername(), nomePlaylist);
         listModel = new DefaultListModel<>();
         if (!musicas.isEmpty()) {
             for (Music m : musicas) {
