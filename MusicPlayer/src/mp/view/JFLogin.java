@@ -11,13 +11,12 @@ import mp.model.CommonUser;
 import mp.model.VIPUser;
 
 /**
+ * Tela de autenticação de usuário
  * 
- *
  * @author Edivânia Pontes (edivaniap@ufrn.edu.br)
  * @author Anne Ílary (ilarymoraes@hotmail.com)
  * @since 18 de junho de 2018
  */
-
 public class JFLogin extends javax.swing.JFrame {
 
     private UserDAO usuarioDAO;
@@ -49,7 +48,7 @@ public class JFLogin extends javax.swing.JFrame {
         jLabelUser = new javax.swing.JLabel();
         jLabelPass = new javax.swing.JLabel();
         jPasswordField = new javax.swing.JPasswordField();
-        jLabel1 = new javax.swing.JLabel();
+        jLabelAppTitle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gem Music Player - Entrar");
@@ -93,9 +92,9 @@ public class JFLogin extends javax.swing.JFrame {
 
         jPasswordField.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Maiandra GD", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(153, 204, 0));
-        jLabel1.setText("Gem Music Player");
+        jLabelAppTitle.setFont(new java.awt.Font("Maiandra GD", 1, 36)); // NOI18N
+        jLabelAppTitle.setForeground(new java.awt.Color(153, 204, 0));
+        jLabelAppTitle.setText("Gem Music Player");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -105,7 +104,7 @@ public class JFLogin extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE))
+                        .addComponent(jLabelAppTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -134,7 +133,7 @@ public class JFLogin extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(jLabelLogo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabelAppTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelWelcome)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -175,15 +174,15 @@ public class JFLogin extends javax.swing.JFrame {
             jLabelMessage.setText("Preencha todos os campos");
             jLabelMessage.setVisible(true);
         } else {
-            User atual = usuarioDAO.authenticate(jTextUser.getText(), jPasswordField.getText());
-            if (atual != null) {
+            User currentUser = usuarioDAO.authenticate(jTextUser.getText(), jPasswordField.getText());
+            if (currentUser != null) {
                 try {
-                    if(atual instanceof VIPUser) {
-                        JFPlayerVIP tela = new JFPlayerVIP((VIPUser) atual);
-                        tela.setVisible(true);
+                    if(currentUser instanceof VIPUser) {
+                        JFVIPPlayer screen = new JFVIPPlayer((VIPUser) currentUser);
+                        screen.setVisible(true);
                     } else {
-                        JFPlayerComum tela = new JFPlayerComum((CommonUser) atual);
-                        tela.setVisible(true);
+                        JFCommonPlayer screen = new JFCommonPlayer((CommonUser) currentUser);
+                        screen.setVisible(true);
                     }
                     this.dispose();
                 } catch (IOException ex) {
@@ -234,8 +233,8 @@ public class JFLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEnter;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelAdm;
+    private javax.swing.JLabel jLabelAppTitle;
     private javax.swing.JLabel jLabelLogo;
     private javax.swing.JLabel jLabelMessage;
     private javax.swing.JLabel jLabelPass;
