@@ -51,7 +51,7 @@ public class Playlist {
         this.musics = musics;
     }
 
-      /**
+   /**
      * Recupera o título da playlist
      *
      * @return O atual título da playlist
@@ -60,7 +60,7 @@ public class Playlist {
         return title;
     }
 
-        /**
+   /**
      * Modifica o título da playlist
      *
      * @param title O novo título da playlist

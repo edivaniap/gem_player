@@ -16,8 +16,11 @@ import mp.model.CommonUser;
 import mp.model.VIPUser;
 
 /**
- *
- * @author Edivania
+ * Representa dados de um usuário
+ * 
+ * @author Edivânia Pontes (edivaniap@ufrn.edu.br)
+ * @author Anne Ílary (ilarymoraes@hotmail.com)
+ * @since 20 de junho de 2018
  */
 public class UsuarioDAO implements CRUDInterface {
     
@@ -31,6 +34,13 @@ public class UsuarioDAO implements CRUDInterface {
         file = new File("data/usuarios.txt");
     }
     
+    /**
+     * Valida a autenticação do usuario 
+     * 
+     * @param user Usuario
+     * @param pass Senha correspondente ao usuario
+     * @return
+     */
     public User autenticacao(String user, String pass) {
         ArrayList<User> usuarios = this.list();
         
@@ -43,17 +53,22 @@ public class UsuarioDAO implements CRUDInterface {
         return null;
     }
     
+    /**
+     * Insere um novo usuario, sua senha e seu tipo (Comum ou VIP) 
+     * 
+     * @param usuario Usuario atual
+     */
     @Override
     public void insert(User usuario) {
         try {
-            FileWriter fw = new FileWriter(file, true); //segundo parametro indica que o conteúdo sera acrescentado e nao substituido
+            FileWriter fw = new FileWriter(file, true); 
             BufferedWriter bw = new BufferedWriter(fw);
             
             bw.write(usuario.getNome() + ";"
                     + usuario.getUsername() + ";" + usuario.getPassword() + ";"
                     + usuario.getType());
             
-            bw.newLine(); //quebra de linha    
+            bw.newLine();   
 
             bw.close();
             fw.close();
@@ -66,6 +81,10 @@ public class UsuarioDAO implements CRUDInterface {
         }
     }
     
+    /**
+     *
+     * @return
+     */
     @Override
     public ArrayList<User> list() {
         
@@ -76,11 +95,10 @@ public class UsuarioDAO implements CRUDInterface {
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
 
-            //enquanto houver linhas...
             while (br.ready()) {
-                String line = br.readLine(); //le proxima linha
+                String line = br.readLine(); 
 
-                String fields[] = line.split(";"); //preenche vetor com valores separados por ;
+                String fields[] = line.split(";"); 
 
                 if (fields[3].equals("VIP")) {
                     usuario = new VIPUser(fields[0], fields[1], fields[2], fields[3]);
@@ -106,6 +124,11 @@ public class UsuarioDAO implements CRUDInterface {
         return usuarios;
     }
     
+    /**
+     * Remove um usuario
+     * 
+     * @param lineToRemove Indica a linha correspondente ao usuario a ser removida
+     */
     @Override
     public void delete(int lineToRemove) {
         ArrayList<User> currentUsers = this.list();
@@ -122,6 +145,12 @@ public class UsuarioDAO implements CRUDInterface {
         }
     }
     
+    /**
+     * Verifica se a senha está inserida em uma lista
+     * 
+     * @param userKey Senha a ser verificada
+     * @return Falso se a senha não existir e verdadeiro caso contrário
+     */
     @Override
     public boolean alreadyExist(String userKey) {
         ArrayList<User> currentUsers = this.list();
@@ -134,6 +163,12 @@ public class UsuarioDAO implements CRUDInterface {
         return false;
     }
     
+    /**
+     *
+     * 
+     * @param userKey 
+     * @return
+     */
     public String getSenha(String userKey) {
         ArrayList<User> currentUsers = this.list();
         
@@ -145,12 +180,14 @@ public class UsuarioDAO implements CRUDInterface {
         return "";
     }
     
+    /**
+     *
+     */
     public void clear() {
         try {
             Writer out = new FileWriter(file.getPath());
             System.out.println(file.getPath());
 
-            //limpa
             out.write("");
             out.flush();
             out.close();
@@ -163,6 +200,12 @@ public class UsuarioDAO implements CRUDInterface {
         }
     }
     
+    /**
+     *  
+     * 
+     * @param newUser
+     * @param currentUserKey
+     */
     @Override
     public void edit(User newUser, String currentUserKey) {
         ArrayList<User> currentUsers = this.list();

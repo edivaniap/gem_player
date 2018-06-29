@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mp.view;
 
 import java.awt.Toolkit;
@@ -15,8 +10,11 @@ import mp.model.CommonUser;
 import mp.model.VIPUser;
 
 /**
+ * 
  *
- * @author maria
+ * @author Edivânia Pontes (edivaniap@ufrn.edu.br)
+ * @author Anne Ílary (ilarymoraes@hotmail.com)
+ * @since 18 de junho de 2018
  */
 public class JFUsuarios extends javax.swing.JFrame {
 

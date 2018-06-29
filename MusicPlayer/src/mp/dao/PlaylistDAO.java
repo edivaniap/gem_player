@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mp.dao;
 
 import java.io.BufferedReader;
@@ -20,8 +15,11 @@ import mp.model.Music;
 import mp.model.Playlist;
 
 /**
+ * Representa dados de uma playlist
  *
- * @author Anne
+ * @author Edivânia Pontes (edivaniap@ufrn.edu.br)
+ * @author Anne Ílary (ilarymoraes@hotmail.com)
+ * @since 23 de junho de 2018
  */
 public class PlaylistDAO {
 
@@ -32,14 +30,17 @@ public class PlaylistDAO {
     private FileWriter fileWriter = null;
     private BufferedWriter bufferedWriter = null;
 
-    /**
-     *
-     * @param playlist
-     */
+    
     public PlaylistDAO() {
-
     }
 
+    /**
+     * Cria uma playlist vinculada a um usuario
+     * 
+     * @param playlist Uma playlist 
+     * @param usuario_criador Identifica o usuario que criou a playlist
+     * @return 
+     */
     public Playlist criar(Playlist playlist, String usuario_criador) {
 
         file = new File("data/" + "playlist_" + usuario_criador + "_" + playlist.getTitle() + ".txt");
@@ -49,13 +50,13 @@ public class PlaylistDAO {
                 file.createNewFile();
 
                 filePlaylists = new File("data/playlists.txt");
-                //adiciona linha no arq. playlist informando quem é o seu dono
-                FileWriter fw = new FileWriter(filePlaylists, true); //segundo parametro indica que o conteúdo sera acrescentado e nao substituido
+               
+                FileWriter fw = new FileWriter(filePlaylists, true); 
                 BufferedWriter bw = new BufferedWriter(fw);
 
                 bw.write(usuario_criador + ";" + playlist.getTitle());
 
-                bw.newLine(); //quebra de linha    
+                bw.newLine();    
 
                 bw.close();
                 fw.close();
@@ -69,6 +70,13 @@ public class PlaylistDAO {
         return null;
     }
 
+    /**
+     * Adiciona uma musica na playlist selecionada
+     * 
+     * @param playlist Uma playlist
+     * @param usuario_criador Identifica o usuario que criou a playlist
+     */
+    
     public void adicionarMusica(Playlist playlist, String usuario_criador) {
         if (this.jaExisteEstaMusica(usuario_criador, playlist.getTitle(), playlist.getMusics().get(0).getTitle())) {
             JOptionPane.showMessageDialog(null, playlist.getMusics().get(0).getTitle() + "\n\nMusica já está adicionada nesta playlist", "Aviso", JOptionPane.INFORMATION_MESSAGE);
@@ -101,6 +109,13 @@ public class PlaylistDAO {
         }
     }
 
+    /**
+     * Lista todas as playlists referentes ao usuario 
+     * 
+     * @param usuario_criador Identifica o usuario que criou a playlist
+     * @return Lista com playlist criada por usuario 
+     */
+    
     public ArrayList<Playlist> listarPlaylistPorUsuario(String usuario_criador) {
         ArrayList<Playlist> playlists = new ArrayList<>();
         Playlist playlistDoUsuario = null;
@@ -110,11 +125,10 @@ public class PlaylistDAO {
             fileReader = new FileReader(filePlaylists);
             bufferedReader = new BufferedReader(fileReader);
 
-            //enquanto houver linhas...
             while (bufferedReader.ready()) {
-                String line = bufferedReader.readLine(); //le proxima linha
+                String line = bufferedReader.readLine(); 
 
-                String fields[] = line.split(";"); //preenche vetor com valores separados por ;
+                String fields[] = line.split(";"); 
 
                 if (usuario_criador.equals(fields[0])) {
                     playlistDoUsuario = new Playlist(fields[1]);
@@ -140,19 +154,26 @@ public class PlaylistDAO {
         return playlists;
     }
 
+    /**
+     * Lista todas as musicas referentes á uma playlist
+     * 
+     * @param usuario_criador Identifica o usuario que criou a playlist
+     * @param nome_pl Nome da playlist
+     * @return Lista com as musicas da playlist
+     */
     public ArrayList<Music> listarMusicasPorPL(String usuario_criador, String nome_pl) {
         ArrayList<Music> musicas = new ArrayList<>();
+        
         try {
             String caminho = "data/" + "playlist_" + usuario_criador + "_" + nome_pl + ".txt";
             file = new File(caminho);
             fileReader = new FileReader(file);
             bufferedReader = new BufferedReader(fileReader);
 
-            //enquanto houver linhas...
             while (bufferedReader.ready()) {
-                String line = bufferedReader.readLine(); //le proxima linha
+                String line = bufferedReader.readLine(); 
 
-                String fields[] = line.split(";"); //preenche vetor com valores separados por ;
+                String fields[] = line.split(";"); 
 
                 Music musica = new Music(fields[0], fields[1]);
                 musicas.add(musica);
@@ -171,6 +192,15 @@ public class PlaylistDAO {
         return musicas;
     }
 
+    /**
+     * Verifica se uma musica já existe na playlist
+     * 
+     * @param usuario_criador Identifica o usuario que criou a playlist
+     * @param nomePlaylist Nome da playlist 
+     * @param musicaKey Musica que será verificada
+     * @return Falso se a musica não existir e verdadeiro caso contrário
+     */
+  
     public boolean jaExisteEstaMusica(String usuario_criador, String nomePlaylist, String musicaKey) {
         ArrayList<Music> currentMusics = this.listarMusicasPorPL(usuario_criador, nomePlaylist);
 

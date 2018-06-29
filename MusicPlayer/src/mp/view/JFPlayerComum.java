@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package mp.view;
 
 import java.awt.Toolkit;
@@ -26,8 +22,11 @@ import mp.dao.PlaylistDAO;
 import mp.model.Playlist;
 
 /**
+ * 
  *
- * @author maria
+ * @author Edivânia Pontes (edivaniap@ufrn.edu.br)
+ * @author Anne Ílary (ilarymoraes@hotmail.com)
+ * @since 18 de junho de 2018
  */
 public class JFPlayerComum extends javax.swing.JFrame {
 
