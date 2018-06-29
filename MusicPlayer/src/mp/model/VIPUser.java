@@ -17,7 +17,6 @@ public class VIPUser extends User {
     /**
      * Cria um usuário padrão vip e inicializa a playlist
      *
-     * @
      */
     public VIPUser() {
         super();

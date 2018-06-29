@@ -26,6 +26,7 @@ public class Music {
     /**
      * Verifica se duas a música é igual a música passada por parâmetro
      *
+     * @param music Música a ser comparada
      * @return true se as músicas são iguais, false caso contrário
      */
     public boolean isEqual(Music music) {

@@ -41,6 +41,7 @@ public class JFCommonPlayer extends javax.swing.JFrame {
 
     /**
      * Creates new form JFCommonPlayer
+     * @throws java.io.IOException
      */
     public JFCommonPlayer() throws IOException {
         initComponents();

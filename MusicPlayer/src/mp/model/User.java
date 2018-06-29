@@ -17,7 +17,7 @@ public abstract class User {
     /* USER DEFAULT*/
     /**
      * Cria um usuário padrão vip
-     * @
+     *
      */
     public User() {
         name = "VIP Default";

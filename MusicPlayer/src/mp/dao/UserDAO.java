@@ -184,8 +184,6 @@ public class UserDAO implements CRUDInterface {
 
     /**
      * Limpa o arquivo com os dados dos usuários apagando todo texto
-     *
-     * @
      */
     public void clear() {
         try {

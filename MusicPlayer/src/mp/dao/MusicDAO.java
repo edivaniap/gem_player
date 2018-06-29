@@ -149,8 +149,6 @@ public class MusicDAO {
 
     /**
      * Limpa o arquivo com os dados das músicas apagando todo texto
-     *
-     * @
      */
     public void clear() {
         try {

@@ -28,8 +28,6 @@ public class MediaPlayer {
 
     /**
      * Prepara arquivo de música e a reproduz
-     *
-     * @
      */
     public void play() {
         try {
@@ -48,8 +46,6 @@ public class MediaPlayer {
 
     /**
      * Para a reprodução de uma música em andamento
-     *
-     * @
      */
     public void parar() {
         jlayer.close();
