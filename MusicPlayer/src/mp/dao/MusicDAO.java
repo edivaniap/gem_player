@@ -27,6 +27,10 @@ public class MusicDAO {
     private FileWriter fileWriter = null;
     private BufferedWriter bufferedWriter = null;
 
+    /**
+     * Construtor
+     * 
+     */
     public MusicDAO() {
         file = new File("data/musicas.txt");
     }
@@ -42,7 +46,9 @@ public class MusicDAO {
             JOptionPane.showMessageDialog(null, music.getTitle() + "\n\nMusica já está adicionada no player", "Aviso", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
+     
                 fileWriter = new FileWriter(file, true);
+                
                 bufferedWriter = new BufferedWriter(fileWriter);
 
                 bufferedWriter.write(music.getTitle() + ";" + music.getPath());
@@ -83,8 +89,9 @@ public class MusicDAO {
             while (bufferedReader.ready()) {
                 String line = bufferedReader.readLine();
                 music = new Music(null, null);
-
-                String fields[] = line.split(";");
+                
+                String fields[];
+                fields = line.split(";");
 
                 music.setTitle(fields[0]);
                 music.setPath(fields[1]);
@@ -118,13 +125,7 @@ public class MusicDAO {
     public boolean alreadyExist(Music musicKey) {
         ArrayList<Music> currentMusics = this.list();
 
-        for (Music music : currentMusics) {
-            if (music.isEqual(musicKey)) {
-                return true;
-            }
-        }
-
-        return false;
+        return currentMusics.stream().anyMatch((music) -> (music.isEqual(musicKey)));
     }
 
     /**
@@ -142,9 +143,9 @@ public class MusicDAO {
             System.err.println("IndexOutOfBoundsException: " + e.getMessage());
         }
 
-        for (Music music : currentMusics) {
+        currentMusics.forEach((music) -> {
             this.insert(music);
-        }
+        });
     }
 
     /**
@@ -152,12 +153,12 @@ public class MusicDAO {
      */
     public void clear() {
         try {
-            Writer out = new FileWriter(file.getPath());
-            System.out.println(file.getPath());
-
-            out.write("");
-            out.flush();
-            out.close();
+            try (Writer out = new FileWriter(file.getPath())) {
+                System.out.println(file.getPath());
+                
+                out.write("");
+                out.flush();
+            }
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "[MusicaDAO - clear()]: " + e.getMessage(), "FileNotFoundException", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {

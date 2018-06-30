@@ -3,6 +3,8 @@ package mp.sound;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
 /**
@@ -14,7 +16,7 @@ import javazoom.jl.player.Player;
  */
 public class MediaPlayer {
 
-    private File music;
+    private final File music;
     private Player jlayer;
 
     /**
@@ -38,18 +40,9 @@ public class MediaPlayer {
             jlayer.play();
             jlayer.close();
             System.out.println("Terminado");
-        } catch (Exception e) {
+        } catch (FileNotFoundException | JavaLayerException e) {
             System.out.println("Erro!");
-            e.printStackTrace();
         }
-    }
-
-    /**
-     * Para a reprodução de uma música em andamento
-     */
-    public void parar() {
-        jlayer.close();
-        System.out.println("Terminado");
     }
 
 }

@@ -24,12 +24,15 @@ import mp.model.VIPUser;
  */
 public class UserDAO implements CRUDInterface {
 
-    private File file;
-    private FileReader fileReader = null;
-    private BufferedReader bufferedReader = null;
-    private FileWriter fileWriter = null;
-    private BufferedWriter bufferedWriter = null;
+    private final  File file;
+    private final  FileReader fileReader = null;
+    private final  BufferedReader bufferedReader = null;
+    private final  FileWriter fileWriter = null;
+    private final  BufferedWriter bufferedWriter = null;
 
+    /**
+     * Construtor
+     */
     public UserDAO() {
         file = new File("data/usuarios.txt");
     }
@@ -63,15 +66,13 @@ public class UserDAO implements CRUDInterface {
     @Override
     public void insert(User user) {
         try {
-            FileWriter fw = new FileWriter(file, true);
-            BufferedWriter bw = new BufferedWriter(fw);
-
-            bw.write(user.getName() + ";" + user.getUsername() + ";" + user.getPassword() + ";" + user.getType());
-
-            bw.newLine();
-
-            bw.close();
-            fw.close();
+            try (FileWriter fw = new FileWriter(file, true); BufferedWriter bw = new BufferedWriter(fw)) {
+                
+                bw.write(user.getName() + ";" + user.getUsername() + ";" + user.getPassword() + ";" + user.getType());
+                
+                bw.newLine();
+                
+            }
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "[UsuarioDAO - inserir()]:" + e.getMessage(), "FileNotFoundException", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
@@ -94,27 +95,29 @@ public class UserDAO implements CRUDInterface {
         User user = null;
 
         try {
-            FileReader fr = new FileReader(file);
-            BufferedReader br = new BufferedReader(fr);
-
-            while (br.ready()) {
-                String line = br.readLine();
-
-                String fields[] = line.split(";");
-
-                if (fields[3].equals("VIP")) {
-                    user = new VIPUser(fields[0], fields[1], fields[2]);
-                } else if (fields[3].equals("Comum")) {
-                    user = new CommonUser(fields[0], fields[1], fields[2]);
-                } else {
-                    System.out.println("[UsuarioDAO - listar()]: Erro no preenchimento do field tipo de usuario...");
+            try (FileReader fr = new FileReader(file); BufferedReader br = new BufferedReader(fr)) {
+                
+                while (br.ready()) {
+                    String line = br.readLine();
+                    
+                    String fields[] = line.split(";");
+                    
+                    switch (fields[3]) {
+                        case "VIP":
+                            user = new VIPUser(fields[0], fields[1], fields[2]);
+                            break;
+                        case "Comum":
+                            user = new CommonUser(fields[0], fields[1], fields[2]);
+                            break;
+                        default:
+                            System.out.println("[UsuarioDAO - listar()]: Erro no preenchimento do field tipo de usuario...");
+                            break;
+                    }
+                    
+                    users.add(user);
                 }
-
-                users.add(user);
+                
             }
-
-            br.close();
-            fr.close();
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "[UsuarioDAO - listar()]:" + e.getMessage(), "FileNotFoundException", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
@@ -142,9 +145,9 @@ public class UserDAO implements CRUDInterface {
             System.err.println("IndexOutOfBoundsException: " + e.getMessage());
         }
 
-        for (User user : currentUsers) {
+        currentUsers.forEach((user) -> {
             this.insert(user);
-        }
+        });
     }
 
     /**
@@ -157,12 +160,7 @@ public class UserDAO implements CRUDInterface {
     public boolean alreadyExist(String userKey) {
         ArrayList<User> currentUsers = this.list();
 
-        for (User user : currentUsers) {
-            if (userKey.equals(user.getUsername())) {
-                return true;
-            }
-        }
-        return false;
+        return currentUsers.stream().anyMatch((user) -> (userKey.equals(user.getUsername())));
     }
 
     /**
@@ -187,12 +185,12 @@ public class UserDAO implements CRUDInterface {
      */
     public void clear() {
         try {
-            Writer out = new FileWriter(file.getPath());
-            System.out.println(file.getPath());
-
-            out.write("");
-            out.flush();
-            out.close();
+            try (Writer out = new FileWriter(file.getPath())) {
+                System.out.println(file.getPath());
+                
+                out.write("");
+                out.flush();
+            }
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "[UsuarioDAO - clear()]: " + e.getMessage(), "FileNotFoundException", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
@@ -213,12 +211,12 @@ public class UserDAO implements CRUDInterface {
         ArrayList<User> currentUsers = this.list();
         this.clear();
 
-        for (User user : currentUsers) {
+        currentUsers.forEach((user) -> {
             if (currentUserKey.equals(user.getUsername())) {
                 this.insert(newUser);
             } else {
                 this.insert(user);
             }
-        }
+        });
     }
 }

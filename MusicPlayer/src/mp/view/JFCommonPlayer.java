@@ -92,7 +92,6 @@ public class JFCommonPlayer extends javax.swing.JFrame {
         } catch (FileNotFoundException el) {
             System.out.println("Arquivo não Encontrado!");
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -112,7 +111,6 @@ public class JFCommonPlayer extends javax.swing.JFrame {
         } catch (FileNotFoundException el) {
             System.out.println("Arquivo não Encontrado!");
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -455,13 +453,7 @@ public class JFCommonPlayer extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JFCommonPlayer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JFCommonPlayer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JFCommonPlayer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(JFCommonPlayer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -480,15 +472,30 @@ public class JFCommonPlayer extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new JFCommonPlayer().setVisible(true);
-                } catch (IOException ex) {
-                    Logger.getLogger(JFCommonPlayer.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                new JFCommonPlayer().setVisible(true);
+            } catch (IOException ex) {
+                Logger.getLogger(JFCommonPlayer.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
@@ -523,13 +530,18 @@ public class JFCommonPlayer extends javax.swing.JFrame {
         ArrayList<Music> musics = musicDAO.list();
         if (!musics.isEmpty()) {
             listModel = new DefaultListModel<>();
-            for (Music m : musics) {
+            musics.forEach((m) -> {
                 listModel.addElement(m.getTitle());
-            }
+            });
             jListMusics.setModel(listModel);
         }
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     public String musicPath(String item) {
         try {
             FileReader fr = new FileReader("data/musicas.txt");
@@ -544,7 +556,6 @@ public class JFCommonPlayer extends javax.swing.JFrame {
         } catch (FileNotFoundException el) {
             System.out.println("Arquivo não Encontrado!");
         } catch (IOException e) {
-            e.printStackTrace();
         }
 
         return null;

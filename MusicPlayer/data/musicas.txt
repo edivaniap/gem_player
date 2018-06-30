@@ -1,11 +1,1 @@
-Let There Be Love.mp3;C:\Users\maria\Desktop\EDIVANIA\MUSICAS\Let There Be Love.mp3
-Aura (Explicit).mp3;C:\Users\maria\Desktop\EDIVANIA\MUSICAS\Aura (Explicit).mp3
-Have Some Fun (feat. The Wanted _ Afrojack).mp3;C:\Users\maria\Desktop\EDIVANIA\MUSICAS\Have Some Fun (feat. The Wanted _ Afrojack).mp3
-Phresh Out the Runway.mp3;C:\Users\maria\Desktop\EDIVANIA\MUSICAS\Phresh Out the Runway.mp3
-Ready For the Weekend.mp3;C:\Users\maria\Desktop\EDIVANIA\MUSICAS\Ready For the Weekend.mp3
-Save the Day.mp3;C:\Users\maria\Desktop\EDIVANIA\MUSICAS\Save the Day.mp3
-Sparks (Cutmore Radio Mix).mp3;C:\Users\maria\Desktop\EDIVANIA\MUSICAS\Sparks (Cutmore Radio Mix).mp3
-Top Down.mp3;C:\Users\maria\Desktop\EDIVANIA\MUSICAS\Top Down.mp3
-Unapologetic Bitch.mp3;C:\Users\maria\Desktop\EDIVANIA\MUSICAS\Unapologetic Bitch.mp3
-Walking On Air.mp3;C:\Users\maria\Desktop\EDIVANIA\MUSICAS\Walking On Air.mp3
-Warrior.mp3;C:\Users\maria\Desktop\EDIVANIA\MUSICAS\Warrior.mp3
+cazuza.mp3;C:\Users\Anne\Desktop\musicas\cazuza.mp3

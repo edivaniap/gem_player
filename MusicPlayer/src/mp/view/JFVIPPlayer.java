@@ -44,6 +44,7 @@ public class JFVIPPlayer extends javax.swing.JFrame {
 
     /**
      * Creates new form JFPlayer
+     * @throws java.io.IOException
      */
     public JFVIPPlayer() throws IOException {
 
@@ -95,7 +96,6 @@ public class JFVIPPlayer extends javax.swing.JFrame {
         } catch (FileNotFoundException el) {
             System.out.println("Arquivo não Encontrado!");
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -115,7 +115,6 @@ public class JFVIPPlayer extends javax.swing.JFrame {
         } catch (FileNotFoundException el) {
             System.out.println("Arquivo não Encontrado!");
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -448,7 +447,7 @@ public class JFVIPPlayer extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-MediaPlayer music;
+    MediaPlayer music;
 
     private void jListMusicsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListMusicsMouseClicked
 
@@ -630,7 +629,7 @@ MediaPlayer music;
     }//GEN-LAST:event_jLabelUserLogadoMouseClicked
 
     private void jLabelStopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelStopMouseClicked
-        music.parar();
+     
     }//GEN-LAST:event_jLabelStopMouseClicked
 
     /**
@@ -649,13 +648,7 @@ MediaPlayer music;
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JFVIPPlayer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JFVIPPlayer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JFVIPPlayer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(JFVIPPlayer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -666,15 +659,22 @@ MediaPlayer music;
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new JFVIPPlayer().setVisible(true);
-                } catch (IOException ex) {
-                    Logger.getLogger(JFVIPPlayer.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                new JFVIPPlayer().setVisible(true);
+            } catch (IOException ex) {
+                Logger.getLogger(JFVIPPlayer.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
@@ -717,9 +717,9 @@ MediaPlayer music;
         ArrayList<Music> musicas = musicDAO.list();
         listModel = new DefaultListModel<>();
         if (!musicas.isEmpty()) {
-            for (Music m : musicas) {
+            musicas.forEach((m) -> {
                 listModel.addElement(m.getTitle());
-            }
+            });
         }
         jListMusics.setModel(listModel);
     }
@@ -731,13 +731,13 @@ MediaPlayer music;
         listModel = new DefaultListModel<>();
 
         if (!playlists.isEmpty()) {
-            for (Playlist p : playlists) {
+            playlists.forEach((p) -> {
                 try {
                     listModel.addElement(p.getTitle());
                 } catch (Exception e) {
                     System.err.println("PlayerVIP loadPlaylistsOnJlist() - exception - " + e);
                 }
-            }
+            });
         }
         jListPlaylists.setModel(listModel);
     }
@@ -747,18 +747,24 @@ MediaPlayer music;
         ArrayList<Music> musicas = playlistDAO.listMusicsByPlaylist(userLoggedIn.getUsername(), nomePlaylist);
         listModel = new DefaultListModel<>();
         if (!musicas.isEmpty()) {
-            for (Music m : musicas) {
+            musicas.forEach((m) -> {
                 try {
                     listModel.addElement(m.getTitle());
                 } catch (Exception e) {
                     System.err.println("PlayerVIP loadPlaylistMusicsOnJlist() - Exception - " + e);
                 }
-            }
+            });
         }
 
         jListMusicsOfPlaylist.setModel(listModel);
     }
 
+    /**
+     *
+     * @param item
+     * @return null
+     */
+    
     public String musicPath(String item) {
         try {
 
@@ -774,10 +780,7 @@ MediaPlayer music;
             }
         } catch (FileNotFoundException el) {
             System.out.println("Arquivo não Encontrado!");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        } catch (IOException | NullPointerException e) {
         }
         return null;
     }

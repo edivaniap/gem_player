@@ -41,19 +41,17 @@ public class PlaylistDAO {
 
         if (!file.exists()) {
             try {
-                file.createNewFile();
+                boolean createNewFile = file.createNewFile();
 
                 filePlaylists = new File("data/playlists.txt");
 
-                FileWriter fw = new FileWriter(filePlaylists, true);
-                BufferedWriter bw = new BufferedWriter(fw);
-
-                bw.write(ownersUsername + ";" + playlist.getTitle());
-
-                bw.newLine();
-
-                bw.close();
-                fw.close();
+                try (FileWriter fw = new FileWriter(filePlaylists, true); BufferedWriter bw = new BufferedWriter(fw)) {
+                    
+                    bw.write(ownersUsername + ";" + playlist.getTitle());
+                    
+                    bw.newLine();
+                    
+                }
             } catch (IOException ex) {
                 Logger.getLogger(PlaylistDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -187,12 +185,7 @@ public class PlaylistDAO {
     public boolean alreadyExist(String ownersUsername, String playlistName, String musicKey) {
         ArrayList<Music> currentMusics = this.listMusicsByPlaylist(ownersUsername, playlistName);
 
-        for (Music music : currentMusics) {
-            if (music.getTitle().equals(musicKey)) {
-                return true;
-            }
-        }
-        return false;
+        return currentMusics.stream().anyMatch((music) -> (music.getTitle().equals(musicKey)));
     }
 
     /**
