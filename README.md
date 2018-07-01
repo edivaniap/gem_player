@@ -18,7 +18,7 @@ O projeto é a implementação de um tocador de música ( media player ), com funcio
 - [x] Interfaces
 - [ ] Classes para tratamento de Exceções
 - [x] Utilizar pelos menos 2 padrões de projetos
-- [ ] Testes unitários
+- [x] Testes unitários
 
 
 ## Diretrizes de programação adotada
@@ -33,10 +33,12 @@ Diretrizes de boas práticas de programação 2018.1 < https://goo.gl/9tGDGS >
 
 ## Ferramenta de testes unitários usada
 
-(indicar qual)
+JUnit 4.12 < https://junit.org >
 
 
-## Desenvolvidoras do programa
+## Desenvolvedoras do programa
 
-- _Edivânia Pontes_ < *edivaniap@ufrn.edu.br* >
-- _Anne Ílary_ < *ilarymoraes@hotmail.com* >
+_Edivânia Pontes_ < *edivaniap@ufrn.edu.br* >
+_Anne Ílary_ < *ilarymoraes@hotmail.com* >
+
+&copy; IMD/UFRN 2017.1
